@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./Jeju_Cardmaker_Codex_Skills.png" alt="Jeju Cardmaker Codex Skills 표지" width="100%">
+</p>
+
 # Codex 용 카드뉴스 생성 스킬 - Codex Skills
 
 보도자료나 사업 안내문(PDF, HWPX, TXT, MD)을 읽고 카드뉴스를 만드는 Codex 스킬 **Jeju_Cardmaker**입니다. 원문과 대조한 기획안(plan.json)을 바탕으로 2160×2700 PNG·JPEG, 편집 가능한 PPTX, 미리보기 HTML을 만들고 ZIP으로 묶습니다. 이미지는 PC 안에서 그리며 별도 AI API 호출이나 SNS 게시를 하지 않습니다.
