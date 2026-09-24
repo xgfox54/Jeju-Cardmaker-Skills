@@ -1,0 +1,64 @@
+{
+  "image_cards": 8,
+  "image_size": [
+    2160,
+    2700
+  ],
+  "editable_pptx_native_text_counts": [
+    9,
+    8,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8
+  ],
+  "linux_libreoffice_pdf_pages": [
+    {
+      "page": 1,
+      "characters": 211,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 2,
+      "characters": 203,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 3,
+      "characters": 228,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 4,
+      "characters": 224,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 5,
+      "characters": 233,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 6,
+      "characters": 278,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 7,
+      "characters": 220,
+      "out_of_page_blocks": []
+    },
+    {
+      "page": 8,
+      "characters": 220,
+      "out_of_page_blocks": []
+    }
+  ],
+  "windows_tested": false,
+  "html_http_browser": {
+    "ok": false,
+    "error": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at http://127.0.0.1:35419/preview.html\nCall log:\n  - navigating to \"http://127.0.0.1:35419/preview.html\", waiting until \"networkidle\"\n"
+  }
+}

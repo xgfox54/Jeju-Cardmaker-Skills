@@ -1,0 +1,7 @@
+interface:
+  display_name: "Jeju_Cardmaker 카드뉴스"
+  short_description: "근거 기반 카드뉴스, 고해상도 이미지와 편집 가능한 PPTX 제작"
+  brand_color: "#0173bc"
+  default_prompt: "$Jeju_Cardmaker 원문을 읽고 카드뉴스 초안을 만들어줘. 제주 팔레트, 2160×2700 PNG/JPEG, 편집형 PPTX와 ZIP을 사용하고, 근거 대조와 전 페이지 검수를 해줘. 별도 API 호출과 SNS 게시는 하지 마."
+policy:
+  allow_implicit_invocation: false
