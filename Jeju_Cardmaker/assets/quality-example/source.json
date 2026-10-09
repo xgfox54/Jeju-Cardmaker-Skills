@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "source_name": "fictional.txt",
+  "source_sha256": "19fb9f7787d01dfdb066f27ca23f91b5bdfaf6856457c27c418517595fa1b370",
+  "format": "txt",
+  "warnings": [],
+  "complete_text_layer": true,
+  "units": [
+    {
+      "locator": "text:1",
+      "text": "가상 서비스는 65세 이상에게 최대 10만원을 안내합니다."
+    }
+  ],
+  "text": "[text:1]\n가상 서비스는 65세 이상에게 최대 10만원을 안내합니다."
+}

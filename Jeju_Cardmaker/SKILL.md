@@ -3,7 +3,7 @@ name: Jeju_Cardmaker
 description: "Jeju_Cardmaker 카드뉴스 제작 및 수정. 보도자료·PDF/HWPX/TXT/MD 또는 plan.json으로 근거를 확인하고, PNG/JPEG·HTML·편집형/이미지형 PPTX·ZIP을 만든다. 일반 보고서나 SNS 자동 게시에는 사용하지 않는다. 별도 API 없는 로컬 렌더링이 기본이다."
 ---
 
-# Jeju_Cardmaker 카드뉴스 · v1.1.1
+# Jeju_Cardmaker 카드뉴스 · v1.2.0
 
 사용자가 `$Jeju_Cardmaker`을 명시적으로 호출했을 때 사용한다. 스킬 루트는 이 파일이 있는 디렉터리다. 사용자 작업 폴더와 스킬 설치 폴더를 구분하고, 산출물은 작업 폴더에 저장한다.
 
@@ -77,3 +77,21 @@ python <SKILL>/scripts/Jeju_Cardmaker.py build --project <PROJECT> --out <새 �
 ## 완료 보고
 
 실제 경로, 장수, 해상도, draft/copy-approved 상태, 출력 파일, 검사 결과와 미검증 범위를 보고한다. 파일 생성과 사용자 PC 설치를 구분한다. 설치를 수행하지 않았다면 설치 완료라고 말하지 않는다. 생성형 일러스트·OCR·SNS 게시·Windows 검수를 실행하지 않았다면 그 사실을 유지한다.
+
+
+<!-- cardprinter-quality-review-20261009 -->
+## CardPrinter 참고 품질 보완 모듈 (2026-10-09)
+
+기존 v1.1.1 렌더러와 `plan.json` 구조는 유지합니다. 별도 `scripts/quality_cli.py`가
+근거·수치·단위·조건·기준일, 승인 이후 근거 변경, 출력 누락과 낮은 색 대비를
+검사하는 선택형 강화 제작 경로를 제공합니다. 기존 `build`에 자동 적용된 기능이 아닙니다.
+
+새 강화 경로에서는 `source.json`, `SOURCES.md`, `evidence.json`을 원문 대조 후 준비하고,
+사전검사 → 기존 렌더러 → 사후검사 → `cardnews-checked.zip` 생성 순서로 처리합니다.
+검사 실패 결과는 완료 폴더로 옮기지 않습니다. 사실·법률·접근성 인증 또는 게시 승인을
+대신하지 않으며, 승인 기록은 실제 사용자 승인 후에만 만듭니다.
+
+설명과 명령: `Jeju_Cardmaker/references/cardprinter-quality.md`
+(스킬 설치 폴더에서는 `references/cardprinter-quality.md`).
+검토 근거와 미구현 범위: 저장소의 `docs/cardprinter-review-20261009/REVIEW.md`.
+보완 모듈 버전은 `2026.10.09.1`이며 기존 본체 버전은 임의로 변경하지 않습니다.

@@ -6,7 +6,7 @@
 
 보도자료나 사업 안내문(PDF, HWPX, TXT, MD)을 읽고 카드뉴스를 만드는 Codex 스킬 **Jeju_Cardmaker**입니다. 원문과 대조한 기획안(plan.json)을 바탕으로 2160×2700 PNG·JPEG, 편집 가능한 PPTX, 미리보기 HTML을 만들고 ZIP으로 묶습니다. 이미지는 PC 안에서 그리며 별도 AI API 호출이나 SNS 게시를 하지 않습니다.
 
-현재 버전은 **v1.1.1**입니다. 변경 내용은 CHANGELOG.md에 있습니다.
+현재 버전은 **v1.2.0** (보완 모듈 2026.10.09.1 포함)입니다. 변경 내용은 CHANGELOG.md에 있습니다.
 
 ## 필요한 것
 
@@ -46,3 +46,21 @@ $Jeju_Cardmaker
 - 텍스트 중심의 카드 템플릿입니다. 생성형 그림, 스캔 문서 OCR, 구형 HWP는 지원하지 않습니다.
 - 자동 검사는 글자 넘침과 출처 번호 연결을 확인할 뿐, 내용이 사실인지 검증하지 않습니다. 게시 전에 원문과 대조해 주세요.
 - ReleasePick Codex Skill v1.1.0을 바탕으로 이름을 바꾸고 Windows 글자 경계 버그를 고친 버전입니다. 외부 원본 프로젝트(chaeun74/Releasepick)의 공식 배포가 아닙니다.
+
+
+<!-- cardprinter-quality-review-20261009 -->
+## CardPrinter 참고 품질 보완 모듈 (2026-10-09)
+
+기존 v1.1.1 렌더러와 `plan.json` 구조는 유지합니다. 별도 `scripts/quality_cli.py`가
+근거·수치·단위·조건·기준일, 승인 이후 근거 변경, 출력 누락과 낮은 색 대비를
+검사하는 선택형 강화 제작 경로를 제공합니다. 기존 `build`에 자동 적용된 기능이 아닙니다.
+
+새 강화 경로에서는 `source.json`, `SOURCES.md`, `evidence.json`을 원문 대조 후 준비하고,
+사전검사 → 기존 렌더러 → 사후검사 → `cardnews-checked.zip` 생성 순서로 처리합니다.
+검사 실패 결과는 완료 폴더로 옮기지 않습니다. 사실·법률·접근성 인증 또는 게시 승인을
+대신하지 않으며, 승인 기록은 실제 사용자 승인 후에만 만듭니다.
+
+설명과 명령: `Jeju_Cardmaker/references/cardprinter-quality.md`
+(스킬 설치 폴더에서는 `references/cardprinter-quality.md`).
+검토 근거와 미구현 범위: 저장소의 `docs/cardprinter-review-20261009/REVIEW.md`.
+보완 모듈 버전은 `2026.10.09.1`이며 기존 본체 버전은 임의로 변경하지 않습니다.

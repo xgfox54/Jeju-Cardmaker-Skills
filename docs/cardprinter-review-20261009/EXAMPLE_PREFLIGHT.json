@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "engine": "Jeju_Cardmaker-quality-v1",
+  "addon_version": "2026.10.09.1",
+  "stage": "preflight",
+  "binding": {
+    "plan_sha256": "febc6ae129a1b003546433180c98b0db5cb6b72b5c3da7e711bd05634aae7fae",
+    "source_record_sha256": "59893e492a0e8a7afb29518e99194340c013c05fe0d78d95ba6deb8b1a2b11a5",
+    "notes_sha256": "476b44db8f4aff5b2f4acf63c76c201d2069377cf97f572ff2de2a4a0b095ba7",
+    "evidence_sha256": "8669d5585a2fc60f772e01ea855ed89c125770561259685bf3b37f3764687c6b",
+    "policy_sha256": "ec747091ae4b157ae00c35d502a4ebaf80ea012b930ff2aeff3c232f378be6a2"
+  },
+  "policy": {
+    "as_of": "2026-10-09",
+    "max_age_days": 30,
+    "contrast_min": 4.5,
+    "body_min_px_at_1080": 30,
+    "safe_padding_px_at_1080": 24,
+    "notice": "운영상 검사 기준이며 법정 기간 또는 접근성 인증 기준을 선언하지 않습니다."
+  },
+  "claim_counts": {
+    "fact": 1,
+    "editorial": 3,
+    "attribution": 1
+  },
+  "factual_accuracy_verified": false,
+  "urls_fetched": false,
+  "original_source_file_authenticated": false,
+  "publishing_authorized": false,
+  "limitations": [
+    "정성적 주장과 editorial 분류의 타당성은 사람이 검토합니다.",
+    "원문 인용 일치와 숫자/조건 검사이지 사실 확인 또는 신원 인증이 아닙니다."
+  ]
+}

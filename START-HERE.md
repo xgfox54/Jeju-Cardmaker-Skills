@@ -15,3 +15,11 @@ $Jeju_Cardmaker
 ```
 
 기관 정책으로 실행이 제한되면 정책을 우회하지 마세요. 승인된 Python 설치 경로와 수동 실행 방법은 README.KO.md에 있습니다. 설치 패키지를 만든 것이며 이 문서를 전달하는 과정에서 사용자 PC에 설치한 것은 아닙니다.
+
+## CardPrinter 품질 보완 경로 (선택형)
+
+근거 대조와 수치·단위 검증이 필요한 경우:
+1. plan.json, source.json, SOURCES.md, evidence.json 준비
+2. python Jeju_Cardmaker/scripts/quality_cli.py preflight --project <작업폴더> --as-of <검토일>
+3. python Jeju_Cardmaker/scripts/quality_cli.py build --project <작업폴더> --out <새결과폴더> --as-of <검토일>
+자세한 안내는 Jeju_Cardmaker/references/cardprinter-quality.md를 참조하세요.

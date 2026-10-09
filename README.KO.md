@@ -1,4 +1,4 @@
-# Jeju_Cardmaker Codex Skill v1.1.1
+# Jeju_Cardmaker Codex Skill v1.2.0
 
 보도자료·사업 안내문·기획 JSON으로 카드뉴스를 만드는 **로컬 Codex용 설치 패키지**입니다. 호출명은 **`$Jeju_Cardmaker`**입니다. 이전 이름은 ReleasePick(`$releasepick`)이었습니다.
 
@@ -124,3 +124,21 @@ python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py build --project reference-projec
 PowerPoint의 폰트 대체와 편집 후 줄바꿈은 대상 PC에서 다시 확인해야 합니다. 자동 검사는 사실 검증·법률 검토·접근성 인증·게시 승인을 대신하지 않습니다. 해시는 임의 조작에 대한 신원 인증 서명이 아닙니다.
 
 v1.0의 선택적 원본 저장소/API 어댑터는 유지했으나 이번에 최신 upstream과 실제 유료 API를 검증하지 않았습니다. 불필요하면 -WithUpstream을 사용하지 마세요. CHANGELOG.md, IMPROVEMENTS.md, TEST_REPORT.md를 함께 확인하세요.
+
+
+<!-- cardprinter-quality-review-20261009 -->
+## CardPrinter 참고 품질 보완 모듈 (2026-10-09)
+
+기존 v1.1.1 렌더러와 `plan.json` 구조는 유지합니다. 별도 `scripts/quality_cli.py`가
+근거·수치·단위·조건·기준일, 승인 이후 근거 변경, 출력 누락과 낮은 색 대비를
+검사하는 선택형 강화 제작 경로를 제공합니다. 기존 `build`에 자동 적용된 기능이 아닙니다.
+
+새 강화 경로에서는 `source.json`, `SOURCES.md`, `evidence.json`을 원문 대조 후 준비하고,
+사전검사 → 기존 렌더러 → 사후검사 → `cardnews-checked.zip` 생성 순서로 처리합니다.
+검사 실패 결과는 완료 폴더로 옮기지 않습니다. 사실·법률·접근성 인증 또는 게시 승인을
+대신하지 않으며, 승인 기록은 실제 사용자 승인 후에만 만듭니다.
+
+설명과 명령: `Jeju_Cardmaker/references/cardprinter-quality.md`
+(스킬 설치 폴더에서는 `references/cardprinter-quality.md`).
+검토 근거와 미구현 범위: 저장소의 `docs/cardprinter-review-20261009/REVIEW.md`.
+보완 모듈 버전은 `2026.10.09.1`이며 기존 본체 버전은 임의로 변경하지 않습니다.

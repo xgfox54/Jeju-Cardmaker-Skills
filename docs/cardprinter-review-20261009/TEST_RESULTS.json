@@ -1,0 +1,363 @@
+{
+  "review_date": "2026-10-09",
+  "environment": {
+    "python": "3.13.5",
+    "os": "Linux",
+    "Pillow": "12.3.0"
+  },
+  "suites": [
+    {
+      "suite": "quality",
+      "run": 71,
+      "passed": 68,
+      "skipped": 3,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "suite": "apply_tool",
+      "run": 9,
+      "passed": 9,
+      "skipped": 0,
+      "failed": 0,
+      "errors": 0
+    }
+  ],
+  "tests": [
+    {
+      "test": "test_quality.EvidenceTests.test_approval_binds_evidence_and_policy",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_approval_binds_notes",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_as_of_mismatch",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_duplicate_claim",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_duplicate_locator",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_expired_application",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_expired_checked_date",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_future_checked_date",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_invalid_calendar_date",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_json_duplicate_nan_and_oversize_rejected",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_long_numeric_values_not_rounded_equal",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_malformed_comma_groups_rejected",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_mismatched_claim_text",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_missing_citation_definition",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_missing_claim",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_missing_per_card_citation",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_missing_qualifier",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_money_equivalence",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_no_network_calls",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_no_numeric_editorial_bypass",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_nonexistent_quote",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_not_yet_effective",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_numbers_complete_not_substrings",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_old_approval_cannot_claim_new_gate",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_percent_and_year_checked",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_plan_normalizes_optional_defaults_like_existing_core",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_qualifier_automatically_checked",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_scaled_count_units",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_single_digit_checked",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_source_text_units_mismatch",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_source_unit_change_detected",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_unsupported_schema",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_valid_fixture_is_not_fact_verification",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_wrong_locator",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_wrong_number",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.EvidenceTests.test_wrong_unit",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_checked_archive_duplicate_entry",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_checked_report_tampering",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_corrupt_image",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_false_approved_status_in_draft",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_forged_contrast_metadata",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_low_contrast_blocks_even_when_manifest_updated",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_missing_all_page_reports",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_missing_image_even_after_refresh",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_missing_text_block",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_overflow",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_path_traversal",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_safe_area",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_seal_refuses_failed_report",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_symlink",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_tampering_without_refresh",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_text_truncation_in_lines",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_tiny_body",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_untracked_private_neighbors_not_packaged",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_v111_repeated_unnumbered_body_labels_keep_order",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_v111_unnumbered_body_label_compatibility",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_valid_contract",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.OutputTests.test_wrong_image_size",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_changed_input_during_build",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_cli_malformed_input_returns_nonzero",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_draft_status_cannot_be_hidden",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_engine_failure_cleans_staging",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_existing_output_preserved",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_false_original_verifier_blocks_publication",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_final_needs_quality_approval",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_missing_evidence_stops_before_render",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_postflight_failure_leaves_no_success_folder",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality.WrapperTests.test_success_and_input_preservation",
+      "status": "passed"
+    },
+    {
+      "test": "test_quality_integration.OriginalIntegrationTests.test_original_core_hash_compatibility",
+      "status": "skipped",
+      "reason": "Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed"
+    },
+    {
+      "test": "test_quality_integration.OriginalIntegrationTests.test_real_low_contrast_build_leaves_no_final_output",
+      "status": "skipped",
+      "reason": "Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed"
+    },
+    {
+      "test": "test_quality_integration.OriginalIntegrationTests.test_real_renderer_and_checked_package",
+      "status": "skipped",
+      "reason": "Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_apply_preserves_original_in_backup_and_refreshes_checksums",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_dirty_tracked_file_rejected",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_dry_planning_does_not_modify_repository",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_existing_destination_rejected",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_expected_commit_guard_with_fixture_only_override",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_path_escape_rejected",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_real_baseline_guard_rejects_synthetic_commit",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_validation_failure_rolls_back_modified_files",
+      "status": "passed"
+    },
+    {
+      "test": "test_apply.ApplyTests.test_wrong_remote_rejected",
+      "status": "passed"
+    }
+  ],
+  "original_repository_checked_out": false,
+  "original_renderer_executed": false,
+  "windows_validated": false,
+  "gitlab_pushed": false,
+  "global_skill_installed": false,
+  "totals": {
+    "run": 80,
+    "passed": 77,
+    "skipped": 3,
+    "failed": 0,
+    "errors": 0
+  }
+}

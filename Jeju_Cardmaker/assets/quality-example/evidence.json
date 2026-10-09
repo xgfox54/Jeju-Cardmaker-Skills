@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-09",
+  "source_record_sha256": "59893e492a0e8a7afb29518e99194340c013c05fe0d78d95ba6deb8b1a2b11a5",
+  "sources": [
+    {
+      "id": "1",
+      "title": "가상 시험 자료",
+      "reference": "fictional.txt#text:1",
+      "checked_on": "2026-10-09",
+      "checked_by": "시험용 가상 확인자"
+    }
+  ],
+  "claims": [
+    {
+      "pointer": "/series_title",
+      "text": "검증 기능 시험",
+      "kind": "editorial"
+    },
+    {
+      "pointer": "/head_copy",
+      "text": "실제 정책 안내가 아닌 가상 시험입니다.",
+      "kind": "editorial"
+    },
+    {
+      "pointer": "/slides/0/title",
+      "text": "제작 전에 근거를 확인합니다",
+      "kind": "editorial"
+    },
+    {
+      "pointer": "/slides/0/bullets/0",
+      "text": "가상 서비스는 65세 이상에게 최대 10만원을 안내합니다.",
+      "kind": "fact",
+      "source_id": "1",
+      "locator": "text:1",
+      "quote": "가상 서비스는 65세 이상에게 최대 10만원을 안내합니다.",
+      "required_terms": [
+        "65세 이상",
+        "최대"
+      ]
+    },
+    {
+      "pointer": "/slides/0/footnote",
+      "text": "출처 [1] 가상 시험 자료",
+      "kind": "attribution"
+    }
+  ]
+}

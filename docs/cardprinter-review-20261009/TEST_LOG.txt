@@ -1,0 +1,90 @@
+test_approval_binds_evidence_and_policy (test_quality.EvidenceTests.test_approval_binds_evidence_and_policy) ... ok
+test_approval_binds_notes (test_quality.EvidenceTests.test_approval_binds_notes) ... ok
+test_as_of_mismatch (test_quality.EvidenceTests.test_as_of_mismatch) ... ok
+test_duplicate_claim (test_quality.EvidenceTests.test_duplicate_claim) ... ok
+test_duplicate_locator (test_quality.EvidenceTests.test_duplicate_locator) ... ok
+test_expired_application (test_quality.EvidenceTests.test_expired_application) ... ok
+test_expired_checked_date (test_quality.EvidenceTests.test_expired_checked_date) ... ok
+test_future_checked_date (test_quality.EvidenceTests.test_future_checked_date) ... ok
+test_invalid_calendar_date (test_quality.EvidenceTests.test_invalid_calendar_date) ... ok
+test_json_duplicate_nan_and_oversize_rejected (test_quality.EvidenceTests.test_json_duplicate_nan_and_oversize_rejected) ... ok
+test_long_numeric_values_not_rounded_equal (test_quality.EvidenceTests.test_long_numeric_values_not_rounded_equal) ... ok
+test_malformed_comma_groups_rejected (test_quality.EvidenceTests.test_malformed_comma_groups_rejected) ... ok
+test_mismatched_claim_text (test_quality.EvidenceTests.test_mismatched_claim_text) ... ok
+test_missing_citation_definition (test_quality.EvidenceTests.test_missing_citation_definition) ... ok
+test_missing_claim (test_quality.EvidenceTests.test_missing_claim) ... ok
+test_missing_per_card_citation (test_quality.EvidenceTests.test_missing_per_card_citation) ... ok
+test_missing_qualifier (test_quality.EvidenceTests.test_missing_qualifier) ... ok
+test_money_equivalence (test_quality.EvidenceTests.test_money_equivalence) ... ok
+test_no_network_calls (test_quality.EvidenceTests.test_no_network_calls) ... ok
+test_no_numeric_editorial_bypass (test_quality.EvidenceTests.test_no_numeric_editorial_bypass) ... ok
+test_nonexistent_quote (test_quality.EvidenceTests.test_nonexistent_quote) ... ok
+test_not_yet_effective (test_quality.EvidenceTests.test_not_yet_effective) ... ok
+test_numbers_complete_not_substrings (test_quality.EvidenceTests.test_numbers_complete_not_substrings) ... ok
+test_old_approval_cannot_claim_new_gate (test_quality.EvidenceTests.test_old_approval_cannot_claim_new_gate) ... ok
+test_percent_and_year_checked (test_quality.EvidenceTests.test_percent_and_year_checked) ... ok
+test_plan_normalizes_optional_defaults_like_existing_core (test_quality.EvidenceTests.test_plan_normalizes_optional_defaults_like_existing_core) ... ok
+test_qualifier_automatically_checked (test_quality.EvidenceTests.test_qualifier_automatically_checked) ... ok
+test_scaled_count_units (test_quality.EvidenceTests.test_scaled_count_units) ... ok
+test_single_digit_checked (test_quality.EvidenceTests.test_single_digit_checked) ... ok
+test_source_text_units_mismatch (test_quality.EvidenceTests.test_source_text_units_mismatch) ... ok
+test_source_unit_change_detected (test_quality.EvidenceTests.test_source_unit_change_detected) ... ok
+test_unsupported_schema (test_quality.EvidenceTests.test_unsupported_schema) ... ok
+test_valid_fixture_is_not_fact_verification (test_quality.EvidenceTests.test_valid_fixture_is_not_fact_verification) ... ok
+test_wrong_locator (test_quality.EvidenceTests.test_wrong_locator) ... ok
+test_wrong_number (test_quality.EvidenceTests.test_wrong_number) ... ok
+test_wrong_unit (test_quality.EvidenceTests.test_wrong_unit) ... ok
+test_checked_archive_duplicate_entry (test_quality.OutputTests.test_checked_archive_duplicate_entry) ... ok
+test_checked_report_tampering (test_quality.OutputTests.test_checked_report_tampering) ... ok
+test_corrupt_image (test_quality.OutputTests.test_corrupt_image) ... ok
+test_false_approved_status_in_draft (test_quality.OutputTests.test_false_approved_status_in_draft) ... ok
+test_forged_contrast_metadata (test_quality.OutputTests.test_forged_contrast_metadata) ... ok
+test_low_contrast_blocks_even_when_manifest_updated (test_quality.OutputTests.test_low_contrast_blocks_even_when_manifest_updated) ... ok
+test_missing_all_page_reports (test_quality.OutputTests.test_missing_all_page_reports) ... ok
+test_missing_image_even_after_refresh (test_quality.OutputTests.test_missing_image_even_after_refresh) ... ok
+test_missing_text_block (test_quality.OutputTests.test_missing_text_block) ... ok
+test_overflow (test_quality.OutputTests.test_overflow) ... ok
+test_path_traversal (test_quality.OutputTests.test_path_traversal) ... ok
+test_safe_area (test_quality.OutputTests.test_safe_area) ... ok
+test_seal_refuses_failed_report (test_quality.OutputTests.test_seal_refuses_failed_report) ... ok
+test_symlink (test_quality.OutputTests.test_symlink) ... ok
+test_tampering_without_refresh (test_quality.OutputTests.test_tampering_without_refresh) ... ok
+test_text_truncation_in_lines (test_quality.OutputTests.test_text_truncation_in_lines) ... ok
+test_tiny_body (test_quality.OutputTests.test_tiny_body) ... ok
+test_untracked_private_neighbors_not_packaged (test_quality.OutputTests.test_untracked_private_neighbors_not_packaged) ... ok
+test_v111_repeated_unnumbered_body_labels_keep_order (test_quality.OutputTests.test_v111_repeated_unnumbered_body_labels_keep_order) ... ok
+test_v111_unnumbered_body_label_compatibility (test_quality.OutputTests.test_v111_unnumbered_body_label_compatibility) ... ok
+test_valid_contract (test_quality.OutputTests.test_valid_contract) ... ok
+test_wrong_image_size (test_quality.OutputTests.test_wrong_image_size) ... ok
+test_changed_input_during_build (test_quality.WrapperTests.test_changed_input_during_build) ... ok
+test_cli_malformed_input_returns_nonzero (test_quality.WrapperTests.test_cli_malformed_input_returns_nonzero) ... ok
+test_draft_status_cannot_be_hidden (test_quality.WrapperTests.test_draft_status_cannot_be_hidden) ... ok
+test_engine_failure_cleans_staging (test_quality.WrapperTests.test_engine_failure_cleans_staging) ... ok
+test_existing_output_preserved (test_quality.WrapperTests.test_existing_output_preserved) ... ok
+test_false_original_verifier_blocks_publication (test_quality.WrapperTests.test_false_original_verifier_blocks_publication) ... ok
+test_final_needs_quality_approval (test_quality.WrapperTests.test_final_needs_quality_approval) ... ok
+test_missing_evidence_stops_before_render (test_quality.WrapperTests.test_missing_evidence_stops_before_render) ... ok
+test_postflight_failure_leaves_no_success_folder (test_quality.WrapperTests.test_postflight_failure_leaves_no_success_folder) ... ok
+test_success_and_input_preservation (test_quality.WrapperTests.test_success_and_input_preservation) ... ok
+test_original_core_hash_compatibility (test_quality_integration.OriginalIntegrationTests.test_original_core_hash_compatibility) ... skipped 'Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed'
+test_real_low_contrast_build_leaves_no_final_output (test_quality_integration.OriginalIntegrationTests.test_real_low_contrast_build_leaves_no_final_output) ... skipped 'Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed'
+test_real_renderer_and_checked_package (test_quality_integration.OriginalIntegrationTests.test_real_renderer_and_checked_package) ... skipped 'Original Jeju_Cardmaker 1.1.1 source is not installed; real renderer integration NOT executed'
+
+----------------------------------------------------------------------
+Ran 71 tests in 1.227s
+
+OK (skipped=3)
+test_apply_preserves_original_in_backup_and_refreshes_checksums (test_apply.ApplyTests.test_apply_preserves_original_in_backup_and_refreshes_checksums) ... ok
+test_dirty_tracked_file_rejected (test_apply.ApplyTests.test_dirty_tracked_file_rejected) ... ok
+test_dry_planning_does_not_modify_repository (test_apply.ApplyTests.test_dry_planning_does_not_modify_repository) ... ok
+test_existing_destination_rejected (test_apply.ApplyTests.test_existing_destination_rejected) ... ok
+test_expected_commit_guard_with_fixture_only_override (test_apply.ApplyTests.test_expected_commit_guard_with_fixture_only_override) ... ok
+test_path_escape_rejected (test_apply.ApplyTests.test_path_escape_rejected) ... ok
+test_real_baseline_guard_rejects_synthetic_commit (test_apply.ApplyTests.test_real_baseline_guard_rejects_synthetic_commit) ... ok
+test_validation_failure_rolls_back_modified_files (test_apply.ApplyTests.test_validation_failure_rolls_back_modified_files) ... ok
+test_wrong_remote_rejected (test_apply.ApplyTests.test_wrong_remote_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.712s
+
+OK

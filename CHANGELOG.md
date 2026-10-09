@@ -1,5 +1,25 @@
 # 변경 이력
 
+## v1.2.0 (보완 모듈 2026.10.09.1) — 2026-10-09
+
+CardPrinter 참고 품질 보완 모듈(quality_cli.py, rp_quality.py) 통합 및 안정화 릴리스.
+
+### 추가
+- 선택형 품질 게이트 파이프라인 (scripts/quality_cli.py): preflight -> build -> postflight -> verify.
+- 근거 검증(evidence.json): 원문 단위 인용문 대조, 수치·단위·기간 일치, 필수 자격·상한·제외 조건 누락 자동 차단.
+- 강화 승인 바인딩: 기획(plan.json), 원문(source.json), 근거문서(SOURCES.md), 증빙(evidence.json), 검사정책의 해시를 묶어 승인 후 변경 시 재승인 요구.
+- 품질 보완 산출물: cardnews-checked.zip, quality-report.json, quality-manifest.json 생성.
+- 단색 배경 텍스트 색 대비 재계산 및 기준 미달 차단 (산출물 미공개).
+- 가상 시험 데이터 및 참조 문서: Jeju_Cardmaker/assets/quality-example/, Jeju_Cardmaker/references/cardprinter-quality.md, docs/cardprinter-review-20261009/.
+
+### 수정
+- quality_cli.py: 기존 코어의 SkillError 발생 시 상세 오류 메시지가 축약되던 문제 수정 (원인 메시지 보존).
+
+### 유지 및 호환성
+- 기존 Jeju_Cardmaker v1.1.1 코어 렌더러, Jeju_Cardmaker.py build CLI, plan.json 스키마 및 출력 형식 완전 호환 유지.
+- 유료 API 미호출, 로컬 텍스트 렌더링, 외부 SNS 미게시 원칙 유지.
+- INSTALL.cmd, UPDATE.cmd, install.py, install.ps1 설치·업데이트 호환성 유지.
+
 ## v1.1.1 — 2026-09-24
 
 기준 패키지: ReleasePick-Codex-Skill-v1.1.0.zip. 이름 변경과 Windows 글자 경계 버그 수정입니다.
@@ -49,3 +69,21 @@
 ## v1.0.0
 
 당시 README·출처·시험 보고·시험 로그·배포 범위는 history/v1.0.0에 별도 보존했습니다. 현재 검사 결과와 혼동하지 마세요.
+
+
+<!-- cardprinter-quality-review-20261009 -->
+## CardPrinter 참고 품질 보완 모듈 (2026-10-09)
+
+기존 v1.1.1 렌더러와 `plan.json` 구조는 유지합니다. 별도 `scripts/quality_cli.py`가
+근거·수치·단위·조건·기준일, 승인 이후 근거 변경, 출력 누락과 낮은 색 대비를
+검사하는 선택형 강화 제작 경로를 제공합니다. 기존 `build`에 자동 적용된 기능이 아닙니다.
+
+새 강화 경로에서는 `source.json`, `SOURCES.md`, `evidence.json`을 원문 대조 후 준비하고,
+사전검사 → 기존 렌더러 → 사후검사 → `cardnews-checked.zip` 생성 순서로 처리합니다.
+검사 실패 결과는 완료 폴더로 옮기지 않습니다. 사실·법률·접근성 인증 또는 게시 승인을
+대신하지 않으며, 승인 기록은 실제 사용자 승인 후에만 만듭니다.
+
+설명과 명령: `Jeju_Cardmaker/references/cardprinter-quality.md`
+(스킬 설치 폴더에서는 `references/cardprinter-quality.md`).
+검토 근거와 미구현 범위: 저장소의 `docs/cardprinter-review-20261009/REVIEW.md`.
+보완 모듈 버전은 `2026.10.09.1`이며 기존 본체 버전은 임의로 변경하지 않습니다.
