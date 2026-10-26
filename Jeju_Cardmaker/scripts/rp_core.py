@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 MAX_INPUT_BYTES = 50 * 1024 * 1024
 MAX_PLAN_BYTES = 2 * 1024 * 1024
 

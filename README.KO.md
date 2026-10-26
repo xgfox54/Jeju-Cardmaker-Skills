@@ -1,4 +1,4 @@
-# Jeju_Cardmaker Codex Skill v1.3.0
+# Jeju_Cardmaker Codex Skill v1.3.1
 
 보도자료·사업 안내문·기획 JSON으로 카드뉴스를 만드는 **로컬 Codex용 설치 패키지**입니다. 호출명은 **`$Jeju_Cardmaker`**입니다. 이전 이름은 ReleasePick(`$releasepick`)이었습니다.
 
@@ -50,7 +50,7 @@ py -3.12 "$HOME\.agents\skills\Jeju_Cardmaker\scripts\bootstrap.py" core --allow
 powershell -NoProfile -File .\install.ps1 -ProjectPath "C:\CardNewsProject" -WithRuntime
 ```
 
-macOS/Linux는 `python3 install.py`를 사용하고 필요하면 설치된 scripts/bootstrap.py로 환경을 준비합니다. v1.3.0은 Windows에서 렌더링과 자동 테스트를 실행했습니다. macOS/Linux 실행과 설치기 클릭은 이번 검증에 포함하지 않았습니다.
+macOS/Linux는 `python3 install.py`를 사용하고 필요하면 설치된 scripts/bootstrap.py로 환경을 준비합니다. v1.3.1은 Windows에서 렌더링과 자동 테스트를 실행했습니다. macOS/Linux 실행과 설치기 클릭은 이번 검증에 포함하지 않았습니다.
 
 ## 2. Codex에 요청
 
@@ -129,6 +129,6 @@ python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py build --project reference-projec
 
 PowerPoint의 폰트 대체와 편집 후 줄바꿈은 대상 PC에서 다시 확인해야 합니다. 자동 검사는 사실 검증·법률 검토·접근성 인증·게시 승인을 대신하지 않습니다. 해시는 임의 조작에 대한 신원 인증 서명이 아닙니다.
 
-v1.0의 선택적 원본 저장소/API 어댑터는 유지했으나 이번에 최신 upstream과 실제 유료 API를 검증하지 않았습니다. 불필요하면 -WithUpstream을 사용하지 마세요. 이번 검증은 TEST_REPORT-v1.3.0.md를 확인하세요. TEST_REPORT.md와 TEST_LOG.txt는 과거 버전의 기록입니다.
+v1.0의 선택적 원본 저장소/API 어댑터는 유지했으나 이번에 최신 upstream과 실제 유료 API를 검증하지 않았습니다. 불필요하면 -WithUpstream을 사용하지 마세요. 이번 검증은 TEST_REPORT-v1.3.1.md를 확인하세요. TEST_REPORT.md와 TEST_LOG.txt는 과거 버전의 기록입니다.
 
 직원 AI 학습 기본 폰트는 Pretendard Regular/Bold 정적 폰트임. 공식 배포본: https://github.com/orioncactus/pretendard/releases . 없으면 --font 및 --bold-font를 함께 지정해야 하며 다른 폰트로 대체하지 않음.

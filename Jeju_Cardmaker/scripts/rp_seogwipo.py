@@ -9,7 +9,9 @@ from rp_render import fit_block, left_overhang
 
 PET_ROOT = Path(__file__).resolve().parents[1] / "assets" / "jeju-pets"
 PETS = (("gyulmo", "귤귤"), ("harubang", "하르방"), ("halla", "한라"))
-PET_FILES = ("gyulmo.png", "harubang.png", "halla.png", "manifest.json", "SOURCES.md")
+POSES = ("wave", "walk-right", "walk-left", "explain", "think", "cheer", "caution")
+PET_FILES = ("gyulmo.png", "harubang.png", "halla.png", "manifest.json", "SOURCES.md") + tuple(
+    f"{pet_id}-{pose}.png" for pet_id, _ in PETS for pose in POSES)
 LABELS = {"definition": "개념 이해", "list": "업무 활용", "compare": "차이 비교",
           "steps": "따라 하기", "caution": "주의사항", "summary": "핵심 정리"}
 
@@ -17,8 +19,10 @@ LABELS = {"definition": "개념 이해", "list": "업무 활용", "compare": "�
 def validate_pets() -> dict:
     """Fail on missing or changed artwork instead of drawing substitutes."""
     manifest = read_json(PET_ROOT / "manifest.json")
-    for pet_id, _ in PETS:
-        path = PET_ROOT / f"{pet_id}.png"
+    for filename in PET_FILES:
+        if not filename.endswith(".png"):
+            continue
+        path = PET_ROOT / filename
         if not path.is_file() or path.is_symlink():
             raise SkillError("제주 펫 원본 PNG를 확인하세요.")
         if sha256(path.read_bytes()) != manifest.get("sha256", {}).get(path.name):
@@ -57,6 +61,11 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
         rect(x, y, w, h, line)
         rect(x+thickness, y+thickness, w-2*thickness, h-2*thickness, fill)
 
+    def circle(x, y, diameter, fill):
+        draw.ellipse((px(x), px(y), px(x+diameter)-1, px(y+diameter)-1), fill=fill)
+        shapes.append({"kind": "ellipse", "x": px(x), "y": px(y),
+                       "width": px(diameter), "height": px(diameter), "fill": fill, "radius": 0})
+
     def text(value, x, y, w, h, hi, lo, label, strong=False, background=paper, color=None):
         path = fonts[1 if strong else 0]
         spec = fit_block(draw, value, path, px(w), px(h), px(hi), px(lo), f"{index+1}장 {label}")
@@ -78,9 +87,10 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
                        "font_family": font_family(path), "glyph_bounds": bounds, "overflow": False})
         return spec["height"] / scale
 
-    def pet(pet_index, x, bottom, max_w, max_h):
+    def pet(pet_index, pose, x, bottom, max_w, max_h):
         pet_id, name = PETS[pet_index]
-        path = PET_ROOT / f"{pet_id}.png"
+        filename = f"{pet_id}-{pose}.png"
+        path = PET_ROOT / filename
         with Image.open(path) as original:
             character = original.convert("RGBA")
             ratio = min(px(max_w)/character.width, px(max_h)/character.height)
@@ -88,7 +98,7 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
                                          Image.Resampling.NEAREST)
             xx, yy = px(x)+(px(max_w)-character.width)//2, px(bottom)-character.height
             image.paste(character, (xx, yy), character)
-            pets.append({"id": pet_id, "name": name, "asset": f"assets/jeju-pets/{pet_id}.png",
+            pets.append({"id": pet_id, "name": name, "pose": pose, "asset": f"assets/jeju-pets/{filename}",
                          "sha256": sha256(path.read_bytes()), "x": xx, "y": yy,
                          "width": character.width, "height": character.height})
 
@@ -97,8 +107,8 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
     text(f"{index+1:02d} / {len(plan['slides']):02d}", 888, 46, 136, 40, 25, 23, "쪽수",
          background=profile["background"])
     frame(48, 130, 984, logical_h-340, paper, border, 6)
-    for n, color in enumerate(colors):
-        rect(48+n*328, logical_h-210, 328, 7, color)
+    for n, color in enumerate((colors[2], colors[1], colors[0])):
+        circle(94+n*34, 146, 18, color)
     label = "AI 기초" if cover else LABELS[layout]
     rect(94, 174, 200, 55, border)
     badge_text = "#FFFFFF" if contrast("#FFFFFF", border) >= 4.5 else profile["text"]
@@ -109,7 +119,7 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
         y += text(plan["head_copy"], 94, y, 892, 110, 31, 28, "보조 설명") + 22
 
     pet_bottom = logical_h-240
-    pet_h = 285 if cover else 230 if closing else 145
+    pet_h = 285 if cover else 230 if closing else 180
     pet_top = pet_bottom-pet_h
     takeaway = slide.get("takeaway", "")
     takeaway_h = 108 if takeaway else 0
@@ -155,9 +165,12 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
              True, "#F4F7F6")
     if cover or closing:
         for n in range(3):
-            pet(n, 160+n*260, pet_bottom, 240 if cover else 200, pet_h)
+            pose = ("wave", "explain", "wave")[n] if cover else "cheer"
+            pet(n, pose, 160+n*260, pet_bottom, 240 if cover else 200, pet_h)
     else:
-        pet(index % 3, 820, pet_bottom, 150, pet_h)
+        pose = {"definition": "think", "compare": "explain", "steps": "walk-left",
+                "caution": "caution", "summary": "cheer"}.get(layout, "explain")
+        pet(index % 3, pose, 780, pet_bottom, 200, pet_h)
         text("주의사항을 확인합니다" if layout == "caution" else "한 장에 한 가지씩 익힙니다",
              94, pet_top+60, 680, 45, 25, 23, "학습 안내")
     text(slide.get("footnote") or "", 56, logical_h-174, 968, 83, 23, 19, "출처/각주",

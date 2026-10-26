@@ -5,6 +5,312 @@
   "sha256": {
     "gyulmo.png": "fe6b642386a72d8b2ac14dca27e011c7b42fe1b8a7a490c44e760ae2d138b7f5",
     "halla.png": "a942f44dd108e34f999047c534503110277915583e24c80e12bfbbd9f3b564af",
-    "harubang.png": "98f55654f387286501ef3a1a7a33564855de6fca0784dc1fe11da90d2c565ebe"
+    "harubang.png": "98f55654f387286501ef3a1a7a33564855de6fca0784dc1fe11da90d2c565ebe",
+    "gyulmo-wave.png": "29bbd5569e0571969365ad3e710112a702199850803c8a725facd8c7f3223708",
+    "gyulmo-walk-right.png": "e059507f60e90c0f2b8eac3c89f0fa3baf807162f76db7bf35556307aa5a8990",
+    "gyulmo-walk-left.png": "a1945934bf0575a44443bea77c3c51ca323b144acc5e6326e861e2af6b322475",
+    "gyulmo-explain.png": "5d1405d3fb6cd069a9076c4c050dfc5240dce761061ad977f04bafbc10015ff3",
+    "gyulmo-think.png": "d2b0c442bd5568d9e345e1fb8b48dfeadfc064780bf19ba0e56f73a05f253f25",
+    "gyulmo-cheer.png": "f73d233cdf334dc2f1e2df85aa0d069e7cedde0da19107dce028c78de94bd139",
+    "gyulmo-caution.png": "b1fca67d5360cb2f4fbff5642086b4ad79ef27b35722fa4d2efb4ee3a88954b9",
+    "harubang-wave.png": "f3dfde32f08b9b2a6bb8229d5049cf64f39f476ea76e26eb315de33ceecda80d",
+    "harubang-walk-right.png": "27a9b67fa5aac32a64239d393937a3453b625644f4d2a00507d9fffc65955842",
+    "harubang-walk-left.png": "b886c0dd870f06b4d9104badfcfca17ed46644c93000f75c38db0a127286edd7",
+    "harubang-explain.png": "a9bf4ab6ce1b4b6661eb430a59137eb621994fa4083b4be002d8c650dbdfa4aa",
+    "harubang-think.png": "fe51a5dc2450017a34873530f64e6ed878b6db0386aed1be042be43a4a7c1220",
+    "harubang-cheer.png": "99082b814198f3de52d0217cc18cbfd116890cf3dcd8981bf05e98f1fa22dce9",
+    "harubang-caution.png": "85cbca230ea361907dfb8e1162345509b37ddf3937d12b38c74ef2d41a9a23ec",
+    "halla-wave.png": "9a05cca54dd797b8cd13033e96df4fa5ec46acaae60abb210e793c06095310a0",
+    "halla-walk-right.png": "18c5e50c81597e16c9ddde0e47f1cd315092ffff0b95940586c50a3a29bd301b",
+    "halla-walk-left.png": "0998dfb2bd3e55937b2ce91b8b68270dbfde5fd6b6f1c4b61e3d1b18e0f9f02a",
+    "halla-explain.png": "11ed3982dde0db4c9dd1c4ccbc039e0c59e9e02fe11852f01a8b489fb6ad4f8d",
+    "halla-think.png": "f42dfe5652d61ffe6918d62ea79c873b226806f9f2fdd6566bc72d3c467a9b62",
+    "halla-cheer.png": "6352d41a3c79b40418bdce25f8cd288d31af105b47d20cc1bb1c409a16525dbf",
+    "halla-caution.png": "e61081d25099dcdfd1162543195cd7fb53d3633564f9681d731888d6a75d3829"
+  },
+  "sprite_directory": "src/payload",
+  "frame_size": [
+    192,
+    208
+  ],
+  "spritesheets": {
+    "gyulmo": {
+      "file": "gyulmo.spritesheet.png",
+      "sha256": "2d7d91924d53da9c40d3f0cb87dcb5682f5f647fc3a999170eeae151ecc114ba",
+      "size": [
+        1536,
+        2288
+      ]
+    },
+    "harubang": {
+      "file": "harubang.spritesheet.png",
+      "sha256": "21129a9c7cb7d4cac9711a7a762257b6f66af5b8cbbad986dec5f8bd8e79bfe4",
+      "size": [
+        1536,
+        2288
+      ]
+    },
+    "halla": {
+      "file": "halla.spritesheet.png",
+      "sha256": "897d34d13b111d95a89c5fa717b94dcbfdad128582260661de6b344705d35b39",
+      "size": [
+        1536,
+        1872
+      ]
+    }
+  },
+  "poses": {
+    "gyulmo-wave.png": {
+      "pet": "gyulmo",
+      "pose": "wave",
+      "row": 3,
+      "column": 2,
+      "box": [
+        384,
+        624,
+        576,
+        832
+      ]
+    },
+    "gyulmo-walk-right.png": {
+      "pet": "gyulmo",
+      "pose": "walk-right",
+      "row": 1,
+      "column": 2,
+      "box": [
+        384,
+        208,
+        576,
+        416
+      ]
+    },
+    "gyulmo-walk-left.png": {
+      "pet": "gyulmo",
+      "pose": "walk-left",
+      "row": 2,
+      "column": 2,
+      "box": [
+        384,
+        416,
+        576,
+        624
+      ]
+    },
+    "gyulmo-explain.png": {
+      "pet": "gyulmo",
+      "pose": "explain",
+      "row": 6,
+      "column": 3,
+      "box": [
+        576,
+        1248,
+        768,
+        1456
+      ]
+    },
+    "gyulmo-think.png": {
+      "pet": "gyulmo",
+      "pose": "think",
+      "row": 8,
+      "column": 1,
+      "box": [
+        192,
+        1664,
+        384,
+        1872
+      ]
+    },
+    "gyulmo-cheer.png": {
+      "pet": "gyulmo",
+      "pose": "cheer",
+      "row": 6,
+      "column": 2,
+      "box": [
+        384,
+        1248,
+        576,
+        1456
+      ]
+    },
+    "gyulmo-caution.png": {
+      "pet": "gyulmo",
+      "pose": "caution",
+      "row": 8,
+      "column": 2,
+      "box": [
+        384,
+        1664,
+        576,
+        1872
+      ]
+    },
+    "harubang-wave.png": {
+      "pet": "harubang",
+      "pose": "wave",
+      "row": 3,
+      "column": 2,
+      "box": [
+        384,
+        624,
+        576,
+        832
+      ]
+    },
+    "harubang-walk-right.png": {
+      "pet": "harubang",
+      "pose": "walk-right",
+      "row": 1,
+      "column": 2,
+      "box": [
+        384,
+        208,
+        576,
+        416
+      ]
+    },
+    "harubang-walk-left.png": {
+      "pet": "harubang",
+      "pose": "walk-left",
+      "row": 2,
+      "column": 2,
+      "box": [
+        384,
+        416,
+        576,
+        624
+      ]
+    },
+    "harubang-explain.png": {
+      "pet": "harubang",
+      "pose": "explain",
+      "row": 6,
+      "column": 3,
+      "box": [
+        576,
+        1248,
+        768,
+        1456
+      ]
+    },
+    "harubang-think.png": {
+      "pet": "harubang",
+      "pose": "think",
+      "row": 8,
+      "column": 1,
+      "box": [
+        192,
+        1664,
+        384,
+        1872
+      ]
+    },
+    "harubang-cheer.png": {
+      "pet": "harubang",
+      "pose": "cheer",
+      "row": 6,
+      "column": 2,
+      "box": [
+        384,
+        1248,
+        576,
+        1456
+      ]
+    },
+    "harubang-caution.png": {
+      "pet": "harubang",
+      "pose": "caution",
+      "row": 7,
+      "column": 1,
+      "box": [
+        192,
+        1456,
+        384,
+        1664
+      ]
+    },
+    "halla-wave.png": {
+      "pet": "halla",
+      "pose": "wave",
+      "row": 3,
+      "column": 2,
+      "box": [
+        384,
+        624,
+        576,
+        832
+      ]
+    },
+    "halla-walk-right.png": {
+      "pet": "halla",
+      "pose": "walk-right",
+      "row": 1,
+      "column": 2,
+      "box": [
+        384,
+        208,
+        576,
+        416
+      ]
+    },
+    "halla-walk-left.png": {
+      "pet": "halla",
+      "pose": "walk-left",
+      "row": 2,
+      "column": 2,
+      "box": [
+        384,
+        416,
+        576,
+        624
+      ]
+    },
+    "halla-explain.png": {
+      "pet": "halla",
+      "pose": "explain",
+      "row": 6,
+      "column": 3,
+      "box": [
+        576,
+        1248,
+        768,
+        1456
+      ]
+    },
+    "halla-think.png": {
+      "pet": "halla",
+      "pose": "think",
+      "row": 8,
+      "column": 4,
+      "box": [
+        768,
+        1664,
+        960,
+        1872
+      ]
+    },
+    "halla-cheer.png": {
+      "pet": "halla",
+      "pose": "cheer",
+      "row": 6,
+      "column": 2,
+      "box": [
+        384,
+        1248,
+        576,
+        1456
+      ]
+    },
+    "halla-caution.png": {
+      "pet": "halla",
+      "pose": "caution",
+      "row": 8,
+      "column": 2,
+      "box": [
+        384,
+        1664,
+        576,
+        1872
+      ]
+    }
   }
 }

@@ -13,10 +13,11 @@ SKILL = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL / "scripts"))
 from rp_core import SkillError, plan_hash, plan_strings, read_json, review_markdown, validate_plan, write_json
 from rp_render import create_run, load_profile, resolve_fonts
-from rp_seogwipo import PET_FILES, PET_ROOT, validate_pets
+from rp_seogwipo import PET_FILES, PET_ROOT, POSES, validate_pets
 from rp_studio import build_project, verify_build
 from PIL import Image
 from pptx import Presentation
+from pptx.enum.shapes import MSO_SHAPE
 
 
 class LearningTests(unittest.TestCase):
@@ -45,6 +46,24 @@ class LearningTests(unittest.TestCase):
             self.assertEqual(page["template"], "seogwipo-ai")
             self.assertFalse(page["warnings"])
             self.assertEqual(len(page["pets"]), 3 if number in (0, 7) else 1)
+            dots = [s for s in page["shapes"] if s.get("kind") == "ellipse"]
+            self.assertEqual([s["fill"] for s in dots], ["#F18101", "#0173BC", "#00A074"])
+            self.assertEqual([s["x"] for s in dots], [94, 128, 162])
+            with Image.open(out / ("png/01_cover.png" if number == 0 else
+                                   f"png/{number+1:02d}_{source['role']}.png")) as rendered:
+                for dot in dots:
+                    self.assertEqual(dot["width"], dot["height"])
+                    self.assertEqual(rendered.getpixel((dot["x"]+9, dot["y"]+9)),
+                                     tuple(bytes.fromhex(dot["fill"][1:])))
+                # The entire bottom edge belongs to the page's single border color.
+                for x in (60, 400, 700, 1020):
+                    self.assertEqual(rendered.getpixel((x, 1138)),
+                                     tuple(bytes.fromhex(page["border_color"][1:])))
+            ovals = [s for s in slide.shapes if s.shape_type == 1 and s.auto_shape_type == MSO_SHAPE.OVAL]
+            self.assertEqual([str(s.fill.fore_color.rgb) for s in ovals], ["F18101", "0173BC", "00A074"])
+            for pet in page["pets"]:
+                self.assertIn(pet["pose"], POSES)
+                self.assertIn("-"+pet["pose"]+".png", pet["asset"])
             all_text = "".join(s.text for s in slide.shapes if s.has_text_frame)
             clean = lambda value: "".join(value.split())
             for value in [source["title"], *source["bullets"], source.get("takeaway", ""), source["footnote"]]:
@@ -78,6 +97,24 @@ class LearningTests(unittest.TestCase):
             self.assertEqual(image.size, (2160, 2700))
         report = read_json(out/"render-report.json")
         self.assertEqual({p["id"] for p in report["pages"][0]["pets"]}, {"gyulmo", "harubang", "halla"})
+        self.assertEqual([s["width"] for s in report["pages"][0]["shapes"] if s.get("kind") == "ellipse"], [36]*3)
+
+    def test_pose_catalog_has_distinct_transparent_frames_and_provenance(self):
+        manifest = validate_pets()
+        self.assertEqual(len(manifest["poses"]), 21)
+        for pet in ("gyulmo", "harubang", "halla"):
+            hashes = set()
+            for pose in POSES:
+                filename = f"{pet}-{pose}.png"
+                record = manifest["poses"][filename]
+                self.assertEqual(record["box"], [record["column"]*192, record["row"]*208,
+                                                (record["column"]+1)*192, (record["row"]+1)*208])
+                hashes.add(manifest["sha256"][filename])
+                with Image.open(PET_ROOT / filename) as frame:
+                    self.assertEqual(frame.size, (192, 208))
+                    self.assertEqual(frame.mode, "RGBA")
+                    self.assertEqual(frame.getchannel("A").getextrema(), (0, 255))
+            self.assertEqual(len(hashes), len(POSES))
 
     def test_new_copy_is_reviewed_and_invalidates_approval_hash(self):
         text = self.plan["slides"][1]["takeaway"]

@@ -202,7 +202,9 @@ def editable_deck(reports: list[dict], size: tuple[int, int], logo: Path | None)
         slide.background.fill.solid()
         slide.background.fill.fore_color.rgb = RGBColor.from_string(report["background"][1:])
         for spec in report["shapes"]:
-            shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE if spec["radius"] else MSO_SHAPE.RECTANGLE,
+            kind = (MSO_SHAPE.OVAL if spec.get("kind") == "ellipse" else
+                    MSO_SHAPE.ROUNDED_RECTANGLE if spec["radius"] else MSO_SHAPE.RECTANGLE)
+            shape = slide.shapes.add_shape(kind,
                 round(spec["x"]*unit), round(spec["y"]*unit), round(spec["width"]*unit), round(spec["height"]*unit))
             shape.fill.solid()
             shape.fill.fore_color.rgb = RGBColor.from_string(spec["fill"][1:])
@@ -412,7 +414,8 @@ def verify_build(path: str | Path) -> dict:
     fixed = {"plan.json", "profile.json", "source-summary.json", "render-report.json", "review.md",
              "SOURCES.md", "approval.json", "preview.html", "cardnews-editable.pptx", "cardnews-preview.pptx", "ABOUT.txt"}
     for rel, digest in manifest["files"].items():
-        pet_files = {f"assets/jeju-pets/{n}" for n in ("gyulmo.png", "harubang.png", "halla.png", "manifest.json", "SOURCES.md")}
+        from rp_seogwipo import PET_FILES
+        pet_files = {f"assets/jeju-pets/{n}" for n in PET_FILES}
         if rel not in fixed | pet_files and not re.fullmatch(r"(?:png/\d{2}_(?:cover|body|closing)\.png|jpeg/\d{2}_(?:cover|body|closing)\.jpg)", rel):
             raise SkillError("허용되지 않은 파일이 manifest에 있습니다.")
         if sha256(confined(rel).read_bytes()) != digest:
