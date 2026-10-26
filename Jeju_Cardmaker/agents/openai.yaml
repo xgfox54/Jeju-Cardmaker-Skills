@@ -1,7 +1,7 @@
 interface:
   display_name: "Jeju_Cardmaker 카드뉴스"
-  short_description: "근거 기반 카드뉴스, 고해상도 이미지와 편집 가능한 PPTX 제작"
+  short_description: "서귀포시 직원용 AI 지식 카드뉴스, 제주 펫과 세 가지 제주 색상 적용"
   brand_color: "#0173bc"
-  default_prompt: "$Jeju_Cardmaker 원문을 읽고 카드뉴스 초안을 만들어줘. 제주 팔레트, 2160×2700 PNG/JPEG, 편집형 PPTX와 ZIP을 사용하고, 근거 대조와 전 페이지 검수를 해줘. 별도 API 호출과 SNS 게시는 하지 마."
+  default_prompt: "$Jeju_Cardmaker 서귀포시 직원용 AI 지식 카드뉴스 초안을 만들어줘. 쉬운 설명과 업무 예시, Pretendard, 제주 펫 3종, 제주그린·블루·오렌지 테두리를 적용하고 출처와 전 페이지를 검수해줘."
 policy:
   allow_implicit_invocation: false

@@ -57,8 +57,48 @@
               "null"
             ],
             "maxLength": 300
+          },
+          "layout": {
+            "enum": [
+              "definition",
+              "list",
+              "compare",
+              "steps",
+              "caution",
+              "summary"
+            ]
+          },
+          "takeaway": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "layout": {
+                  "const": "compare"
+                }
+              },
+              "required": [
+                "layout"
+              ]
+            },
+            "then": {
+              "required": [
+                "bullets"
+              ],
+              "properties": {
+                "bullets": {
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            }
+          }
+        ]
       }
     }
   },

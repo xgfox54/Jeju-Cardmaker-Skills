@@ -1,48 +1,60 @@
-<p align="center">
-  <img src="./Jeju_Cardmaker_Codex_Skills.png" alt="Jeju Cardmaker Codex Skills 표지" width="100%">
-</p>
+# 서귀포시 직원용 AI 카드뉴스 생성 스킬
 
-# Codex 용 카드뉴스 생성 스킬 - Codex Skills
+서귀포시 직원에게 AI 지식을 쉽게 설명하는 Codex 스킬 **Jeju_Cardmaker v1.3.0**입니다. 한 편에 개념 하나와 업무 예시를 담고, 제주 펫 **귤귤·하르방·한라**로 학습 내용을 안내합니다.
 
-보도자료나 사업 안내문(PDF, HWPX, TXT, MD)을 읽고 카드뉴스를 만드는 Codex 스킬 **Jeju_Cardmaker**입니다. 원문과 대조한 기획안(plan.json)을 바탕으로 2160×2700 PNG·JPEG, 편집 가능한 PPTX, 미리보기 HTML을 만들고 ZIP으로 묶습니다. 이미지는 PC 안에서 그리며 별도 AI API 호출이나 SNS 게시를 하지 않습니다.
+## 기본 디자인
 
-현재 버전은 **v1.1.1**입니다. 변경 내용은 CHANGELOG.md에 있습니다.
+- Pretendard Regular 본문, Pretendard Bold 제목과 핵심 정리
+- 제주그린 `#00A074`, 제주블루 `#0173BC`, 제주오렌지 `#F18101` 테두리
+- 밝은 바탕과 짙은 본문 글자, 캐릭터와 문안 영역 분리
+- 표지와 마지막 장에 세 캐릭터 모두 배치, 중간 장은 순환 배치
+- 정의·비교·업무 활용·실행 예시·확인 방법·주의사항·요약 구성
+- 기본 2160×2700 PNG·JPEG, 편집형/이미지형 PPTX, HTML, ZIP 출력
 
-## 필요한 것
+캐릭터는 [제주 펫 저장소](https://gitlab.aigov.go.kr/memory365/codex-pet-3jeju)의 원본 PNG를 포함합니다. 생성 시 외부 이미지 다운로드나 AI API 호출이 필요하지 않습니다. 원본 커밋과 해시는 [캐릭터 출처](Jeju_Cardmaker/assets/jeju-pets/SOURCES.md)에 기록했습니다.
 
-- Codex 데스크톱 앱 또는 Codex CLI (Windows 기준으로 시험했습니다)
-- Python 3.11 이상, 3.12 권장
-- 설치할 때 Python 패키지를 내려받을 인터넷 연결
+## 출력 예시
+
+가상 업무로 만든 검토용 초안입니다.
+
+<img src="docs/previews/seogwipo-ai-cover.png" alt="제주 펫 3종과 Pretendard를 적용한 표지" width="340"> <img src="docs/previews/seogwipo-ai-compare.png" alt="요청문을 좌우로 비교하는 카드" width="340">
 
 ## 설치
 
-1. 이 페이지의 **Code → zip**으로 내려받아 압축을 모두 풉니다. git clone으로 받아도 됩니다.
-2. 압축을 푼 폴더에서 **INSTALL.cmd**를 실행합니다. 이전 버전(ReleasePick 포함)을 쓰고 있었다면 **UPDATE.cmd**를 실행합니다. 이전 설치본은 지우지 않고 백업 폴더로 옮깁니다.
-3. Codex에서 새 작업을 열고 **$Jeju_Cardmaker**를 호출합니다. 스킬이 보이지 않으면 Codex를 다시 시작합니다.
+1. 이 저장소를 ZIP으로 내려받아 압축을 풉니다.
+2. 처음 설치는 INSTALL.cmd, 기존 설치본 교체는 UPDATE.cmd를 실행합니다. 기존 설치본은 백업합니다.
+3. [Pretendard 공식 배포본](https://github.com/orioncactus/pretendard/releases)의 정적 Regular/Bold 폰트를 설치합니다.
+4. Codex의 새 대화에서 `$Jeju_Cardmaker`를 호출합니다.
 
-스킬은 %USERPROFILE%\.agents\skills\Jeju_Cardmaker 에 설치됩니다. 내려받은 파일이 바뀌지 않았는지 확인하려면 압축을 푼 폴더에서 python verify_package.py 를 실행합니다.
+Python 3.11 이상과 렌더링 패키지가 필요합니다. 설치 위치는 `%USERPROFILE%\.agents\skills\Jeju_Cardmaker`입니다. 기본 템플릿은 Pretendard를 찾지 못하면 다른 글꼴로 대체하지 않고 필요한 설치나 경로 지정을 안내합니다. 편집형 PPTX를 여는 PC에도 Pretendard가 필요합니다.
+
+이 저장소에 없는 사용자 수정본은 업데이트 전에 별도로 확인하세요. UPDATE.cmd는 기존 폴더를 백업한 뒤 저장소의 스킬로 교체하며 사용자 수정 사항을 자동 병합하지 않습니다.
 
 ## 사용 예
 
-~~~text
+```text
 $Jeju_Cardmaker
-첨부한 보도자료로 카드뉴스 5장 초안을 만들어줘.
-제주 색상(#0173bc, #f18101, #00a074), 기관명·로고 없음.
-2160×2700 PNG·JPEG와 편집 가능한 PPTX를 ZIP으로 만들어줘.
-각 장의 출처와 글자 넘침을 확인하고, 유료 API와 SNS 게시는 하지 마.
-~~~
+서귀포시 직원에게 AI 요청문 작성을 설명하는 카드뉴스 8장 초안을 만들어줘.
+낯선 용어는 풀어 쓰고, 공개자료를 활용한 업무 예시를 넣어줘.
+제주 펫 3종, Pretendard, 제주그린·블루·오렌지 테두리를 사용해줘.
+각 장의 근거를 확인하고 PNG·JPEG·편집형 PPTX·ZIP으로 만들어줘.
+```
 
-초안을 검토하고 문안을 승인한 뒤 승인본을 요청하면 상태 문구가 없는 최종 이미지를 만듭니다.
+기본 build 프로필은 `seogwipo-ai`입니다. 기존 일반 안내문 디자인은 `--profile jeju`, 중립 디자인은 `--profile neutral`로 선택합니다. 기존 render/package 명령도 유지합니다.
+
+```text
+python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py build --project Jeju_Cardmaker/assets/seogwipo-ai-example --out output-example --preset portrait
+python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py verify-build --run output-example
+```
+
+예제는 디자인·기능 검수용 가상 업무 자료입니다. 실제 교육 원고는 주제에 맞는 공식 자료를 확인하고 문안을 검토해야 합니다. 자동 검사는 글자 영역과 출처 번호 연결 등을 검사하며 사실 확인이나 게시 승인을 대신하지 않습니다. SNS에 자동 게시하지 않습니다.
 
 ## 문서
 
-- README.KO.md: 설치, 명령, 결과 파일, 한계에 대한 자세한 설명
-- START-HERE.md: 빠른 시작
-- CHANGELOG.md: 변경 이력
-- NOTICE.md, SOURCES.md: 출처와 배포 범위
+- [직원 AI 학습 기획·디자인·입력 기준](Jeju_Cardmaker/references/seogwipo-ai.md)
+- [8장 예제 기획안](Jeju_Cardmaker/assets/seogwipo-ai-example/plan.json)
+- [설치와 출력 안내](README.KO.md)
+- [명령 옵션](Jeju_Cardmaker/references/commands-v1.1.md)
+- [변경 이력](CHANGELOG.md), [배포 범위](NOTICE.md)
 
-## 알아둘 점
-
-- 텍스트 중심의 카드 템플릿입니다. 생성형 그림, 스캔 문서 OCR, 구형 HWP는 지원하지 않습니다.
-- 자동 검사는 글자 넘침과 출처 번호 연결을 확인할 뿐, 내용이 사실인지 검증하지 않습니다. 게시 전에 원문과 대조해 주세요.
-- ReleasePick Codex Skill v1.1.0을 바탕으로 이름을 바꾸고 Windows 글자 경계 버그를 고친 버전입니다. 외부 원본 프로젝트(chaeun74/Releasepick)의 공식 배포가 아닙니다.
+문안과 캐릭터는 로컬에서 합성합니다. 스캔 문서 OCR, 구형 HWP, 생성형 그림 제작은 포함하지 않습니다. 폰트 파일은 배포하거나 PPTX에 포함하지 않습니다. 배포 파일 확인은 `python verify_package.py`로 실행합니다.

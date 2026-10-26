@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-VERSION = "1.1.1"
+VERSION = "1.3.0"
 MAX_INPUT_BYTES = 50 * 1024 * 1024
 MAX_PLAN_BYTES = 2 * 1024 * 1024
 
@@ -78,7 +78,7 @@ def validate_plan(data: Any, expected_pages: int | None = None) -> dict[str, Any
         raise SkillError(f"요청한 {expected_pages}장과 실제 {len(slides)}장이 다릅니다.")
     for i, slide in enumerate(slides):
         label = f"slides[{i}]"
-        if not isinstance(slide, dict) or set(slide) - {"role", "title", "bullets", "footnote"}:
+        if not isinstance(slide, dict) or set(slide) - {"role", "title", "bullets", "footnote", "layout", "takeaway"}:
             raise SkillError(f"{label}: 잘못된 키 또는 객체 형식입니다.")
         required_role = "cover" if i == 0 else "closing" if i == len(slides) - 1 else "body"
         if slide.get("role") != required_role:
@@ -89,6 +89,13 @@ def validate_plan(data: Any, expected_pages: int | None = None) -> dict[str, Any
             raise SkillError(f"{label}.bullets는 8개 이하 문자열 배열이어야 합니다.")
         for j, bullet in enumerate(bullets):
             _text(bullet, f"{label}.bullets[{j}]", 1000)
+        if "layout" in slide:
+            if slide["layout"] not in ("definition", "list", "compare", "steps", "caution", "summary"):
+                raise SkillError(f"{label}.layout: 지원하지 않는 본문 형식입니다.")
+            if slide["layout"] == "compare" and len(bullets) != 2:
+                raise SkillError(f"{label}: compare는 비교할 본문 2개가 필요합니다.")
+        if "takeaway" in slide:
+            _text(slide["takeaway"], f"{label}.takeaway", 140)
         footnote = slide.get("footnote")
         if footnote is not None:
             _text(footnote, f"{label}.footnote", 300, empty=True)
@@ -107,7 +114,7 @@ def plan_hash(plan: dict[str, Any]) -> str:
 def plan_strings(plan: dict[str, Any]) -> list[str]:
     values = [plan["series_title"], plan["head_copy"]]
     for slide in plan["slides"]:
-        values += [slide["title"], *slide.get("bullets", []), slide.get("footnote") or ""]
+        values += [slide["title"], *slide.get("bullets", []), slide.get("footnote") or "", slide.get("takeaway", "")]
     return values
 
 
@@ -211,6 +218,8 @@ def review_markdown(plan: dict[str, Any], source: dict[str, Any] | None = None) 
     for i, slide in enumerate(plan["slides"], 1):
         lines += ["", f"### {i}. [{slide['role']}] {slide['title']}", ""]
         lines += [f"- {b}" for b in slide.get("bullets", [])]
+        if slide.get("takeaway"):
+            lines += ["", f"핵심 정리: {slide['takeaway']}"]
         if slide.get("footnote"):
             lines += ["", f"출처/각주: {slide['footnote']}"]
     lines += ["", "## 검수 항목", "", "- 원문과 수치·단위·시점·신청 조건이 일치하는가?",

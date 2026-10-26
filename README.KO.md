@@ -1,8 +1,14 @@
-# Jeju_Cardmaker Codex Skill v1.1.1
+# Jeju_Cardmaker Codex Skill v1.3.0
 
 보도자료·사업 안내문·기획 JSON으로 카드뉴스를 만드는 **로컬 Codex용 설치 패키지**입니다. 호출명은 **`$Jeju_Cardmaker`**입니다. 이전 이름은 ReleasePick(`$releasepick`)이었습니다.
 
 기존 v1.0.0 ZIP을 바탕으로 업그레이드했습니다. 공유 Drive 폴더의 JEV plan.json·preview.html·SOURCES.md는 설치 소스가 아니라 제작 사례이므로 reference-projects에 원본 그대로 보관했습니다. 공유 Drive나 사용자 PC를 수정·설치하지 않았습니다.
+
+## 직원 AI 학습 기본값
+
+서귀포시 직원에게 AI 개념과 업무 활용 방법을 쉽게 설명하는 카드뉴스를 제작함. 기본 프로필은 seogwipo-ai이며, 귤귤·하르방·한라와 제주그린·제주블루·제주오렌지 테두리를 사용함. 일반 안내문을 기존 모양으로 만들려면 --profile jeju를 명시함. 새 형식의 layout/takeaway 필드는 기존 프로필에서 지원하지 않음.
+
+기획과 입력 규칙: [직원 AI 학습 기준](Jeju_Cardmaker/references/seogwipo-ai.md). 예제: [8장 기획안](Jeju_Cardmaker/assets/seogwipo-ai-example/plan.json).
 
 ## 1. Windows 설치
 
@@ -44,7 +50,7 @@ py -3.12 "$HOME\.agents\skills\Jeju_Cardmaker\scripts\bootstrap.py" core --allow
 powershell -NoProfile -File .\install.ps1 -ProjectPath "C:\CardNewsProject" -WithRuntime
 ```
 
-macOS/Linux는 `python3 install.py`를 사용하고 필요하면 설치된 scripts/bootstrap.py로 환경을 준비합니다. 이번 실행 검증은 Linux 제작 환경에서 했으며 실제 Windows 설치 클릭은 검증하지 않았습니다.
+macOS/Linux는 `python3 install.py`를 사용하고 필요하면 설치된 scripts/bootstrap.py로 환경을 준비합니다. v1.3.0은 Windows에서 렌더링과 자동 테스트를 실행했습니다. macOS/Linux 실행과 설치기 클릭은 이번 검증에 포함하지 않았습니다.
 
 ## 2. Codex에 요청
 
@@ -112,15 +118,17 @@ python verify_package.py
 JEV 사례를 재현하려면 압축을 푼 폴더에서 다음 명령을 사용합니다.
 
 ```text
-python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py build --project reference-projects/jev-20260918 --out jev-draft-01
+python Jeju_Cardmaker/scripts/Jeju_Cardmaker.py build --project reference-projects/jev-20260918 --out jev-draft-01 --profile jeju
 ```
 
 이 사례는 **2026-09-18 당시 작성된 초안**입니다. JEV 가격·성능·이용 권한을 2026-09-24에 재검증한 자료가 아니며, 게시 전에 현재 공식 자료와 다시 대조해야 합니다.
 
 ## 6. 한계
 
-기본 렌더링은 텍스트 중심 템플릿입니다. 생성형 그림·인포그래픽 자동 디자인·다양한 사진 레이아웃·스캔 OCR·SNS 게시를 추가한 것은 아닙니다. 별도 API 키 없이 동작하지만 Codex 자체의 이용 요금·한도는 별개입니다.
+기본 렌더링은 본문과 제주 펫을 배치하는 직원 AI 학습 템플릿입니다. 생성형 그림·인포그래픽 자동 디자인·다양한 사진 레이아웃·스캔 OCR·SNS 게시를 추가한 것은 아닙니다. 별도 API 키 없이 동작하지만 Codex 자체의 이용 요금·한도는 별개입니다.
 
 PowerPoint의 폰트 대체와 편집 후 줄바꿈은 대상 PC에서 다시 확인해야 합니다. 자동 검사는 사실 검증·법률 검토·접근성 인증·게시 승인을 대신하지 않습니다. 해시는 임의 조작에 대한 신원 인증 서명이 아닙니다.
 
-v1.0의 선택적 원본 저장소/API 어댑터는 유지했으나 이번에 최신 upstream과 실제 유료 API를 검증하지 않았습니다. 불필요하면 -WithUpstream을 사용하지 마세요. CHANGELOG.md, IMPROVEMENTS.md, TEST_REPORT.md를 함께 확인하세요.
+v1.0의 선택적 원본 저장소/API 어댑터는 유지했으나 이번에 최신 upstream과 실제 유료 API를 검증하지 않았습니다. 불필요하면 -WithUpstream을 사용하지 마세요. 이번 검증은 TEST_REPORT-v1.3.0.md를 확인하세요. TEST_REPORT.md와 TEST_LOG.txt는 과거 버전의 기록입니다.
+
+직원 AI 학습 기본 폰트는 Pretendard Regular/Bold 정적 폰트임. 공식 배포본: https://github.com/orioncactus/pretendard/releases . 없으면 --font 및 --bold-font를 함께 지정해야 하며 다른 폰트로 대체하지 않음.

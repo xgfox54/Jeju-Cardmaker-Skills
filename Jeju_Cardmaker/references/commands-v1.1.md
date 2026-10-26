@@ -13,9 +13,10 @@ python scripts/Jeju_Cardmaker.py build --project <plan.json이 있는 폴더> --
 | --preset portrait-2x | 기본값. 2160×2700, 4:5 |
 | --preset portrait | 1080×1350, 4:5 |
 | --preset legacy | 1000×1350. 새 레이아웃의 이전 규격 |
-| --profile jeju | 기본값. 제주 사용자 팔레트, 기관명·로고는 공란 |
+| --profile seogwipo-ai | 기본값. 직원 AI 학습, 제주 펫 3종과 세 색상 테두리 |
+| --profile jeju | 기존 일반 안내문 템플릿, 기관명·로고는 공란 |
 | --profile neutral | 기존 중립 팔레트 |
-| --profile <JSON> | 사용자 프로필 파일. 기존 프로필 필드 사용 |
+| --profile <JSON> | 사용자 프로필 파일. 기존 프로필 필드 사용. template: seogwipo-ai로 새 템플릿 선택 가능 |
 | --source <source.json> | extract 결과 연결. 지정하지 않으면 초안의 원문 미연결 표시 |
 | --approval <approval.json> --final | 실제 문안 승인 기록을 확인하고 승인본 생성 |
 | --hide-status | --final과 함께만 사용. 카드 위 상태 글자 제거 |
@@ -47,3 +48,5 @@ python "$HOME\.agents\skills\Jeju_Cardmaker\scripts\Jeju_Cardmaker.py" build --p
 ```
 
 일반 python에 의존성이 없는 경우 스킬 전용 Python을 실행 환경으로 선택한다. PowerShell에서 문자열 형태 실행 파일 경로를 직접 호출하는 문법 대신, 해당 .venv\Scripts 폴더로 이동하여 `.\python.exe`로 실행해도 된다.
+
+직원 AI 학습 기본 폰트는 Pretendard Regular/Bold 정적 폰트임. 공식 배포본: https://github.com/orioncactus/pretendard/releases . 없으면 --font 및 --bold-font를 함께 지정해야 하며 다른 폰트로 대체하지 않음.

@@ -68,6 +68,9 @@ def font_family(path: Path) -> str:
 def render_card(plan: dict, index: int, profile: dict, fonts: tuple[Path, Path],
                 size: tuple[int, int], status: str, hide_status: bool = False,
                 logo: Path | None = None) -> tuple[Any, dict]:
+    if profile.get("template") == "seogwipo-ai":
+        from rp_seogwipo import render_learning_card
+        return render_learning_card(plan, index, profile, fonts, size, status, hide_status, logo)
     from PIL import Image, ImageDraw, ImageFont
     width, height = size
     scale = width / 1080
@@ -237,6 +240,11 @@ def editable_deck(reports: list[dict], size: tuple[int, int], logo: Path | None)
             b = report["logo"]
             slide.shapes.add_picture(str(logo), round(b["x"]*unit), round(b["y"]*unit),
                 width=round(b["width"]*unit), height=round(b["height"]*unit))
+        for pet in report.get("pets", []):
+            source = Path(__file__).resolve().parents[1] / pet["asset"]
+            picture = slide.shapes.add_picture(str(source), round(pet["x"]*unit), round(pet["y"]*unit),
+                width=round(pet["width"]*unit), height=round(pet["height"]*unit))
+            picture.name = pet["name"]
         slide.notes_slide.notes_text_frame.text = "문안 편집용입니다. 편집 후 글자 넘침과 폰트를 재검수하세요. PNG와 자동 동기화되지 않습니다."
     stream = BytesIO()
     prs.save(stream)
@@ -261,8 +269,8 @@ def preview_html(plan: dict, paths: list[str], status: str, notes: str | None, d
     cards = []
     for i, (slide, rel) in enumerate(zip(plan["slides"], paths), 1):
         esc = html.escape
-        plain = " ".join([slide["title"], *slide["bullets"], slide.get("footnote") or ""])
-        body = "".join(f"<p>{esc(t)}</p>" for t in slide["bullets"])
+        plain = " ".join([slide["title"], *slide["bullets"], slide.get("takeaway", ""), slide.get("footnote") or ""])
+        body = "".join(f"<p>{esc(t)}</p>" for t in [*slide["bullets"], slide.get("takeaway", "")] if t)
         jpg = rel.replace("png/", "jpeg/").replace(".png", ".jpg")
         cards.append(f'<article><img src="{esc(rel)}" alt="{esc(plain, quote=True)}" loading="lazy">'
                      f'<p><a download href="{esc(rel)}">{i}장 PNG</a> · <a download href="{esc(jpg)}">JPEG</a></p>'
@@ -282,7 +290,7 @@ a{{color:#0173bc}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:wh
 
 
 def build_project(project: str | Path, output: str | Path, *, preset: str = "portrait-2x",
-                  profile_name: str = "jeju", source_path: str | None = None,
+                  profile_name: str = "seogwipo-ai", source_path: str | None = None,
                   approval_path: str | None = None, final: bool = False,
                   hide_status: bool = False, font: str | None = None, bold_font: str | None = None,
                   logo_path: str | None = None, pptx: bool = True) -> Path:
@@ -312,7 +320,10 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
         require_approval(plan, source, approval)
     status = "copy-approved" if final else "draft"
     profile = load_profile(profile_name)
-    fonts = resolve_fonts(font, bold_font)
+    if profile.get("template") != "seogwipo-ai" and any("layout" in s or "takeaway" in s for s in plan["slides"]):
+        raise SkillError("layout/takeaway 문안은 --profile seogwipo-ai로 제작하세요.")
+    fonts = resolve_fonts(font, bold_font,
+                          required_family="Pretendard" if profile.get("template") == "seogwipo-ai" else None)
     check_glyphs(fonts, plan_strings(plan) + [profile["agency"], profile["footer"], "검토용 초안 문안 승인본 · 0123456789 / "])
     logo = Path(logo_path).expanduser().resolve(strict=True) if logo_path else None
     size = PRESETS[preset]
@@ -344,11 +355,18 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
             (stage/"SOURCES.md").write_text(notes, encoding="utf-8")
         if final:
             write_json(stage/"approval.json", approval)
+        if profile.get("template") == "seogwipo-ai":
+            from rp_seogwipo import PET_FILES, PET_ROOT, validate_pets
+            validate_pets()
+            pet_output = stage/"assets"/"jeju-pets"
+            pet_output.mkdir(parents=True)
+            for filename in PET_FILES:
+                shutil.copyfile(PET_ROOT/filename, pet_output/filename)
         if pptx:
             (stage/"cardnews-editable.pptx").write_bytes(editable_deck(reports, size, logo))
             (stage/"cardnews-preview.pptx").write_bytes(image_deck([stage/p for p in paths], size))
         (stage/"preview.html").write_text(preview_html(plan, paths, status, notes, plan_hash(plan)), encoding="utf-8")
-        (stage/"ABOUT.txt").write_text("Jeju_Cardmaker v1.1.1\nPNG/JPEG: 로컬 텍스트 렌더링.\n"
+        (stage/"ABOUT.txt").write_text(f"Jeju_Cardmaker v{VERSION}\nPNG/JPEG: 로컬 카드 렌더링.\n"
             "cardnews-editable.pptx: 텍스트·도형 편집용. 편집/폰트 대체 후 직접 시각 검수.\n"
             "cardnews-preview.pptx: 이미지형 검토용.\n"
             "단일 원본은 plan.json. PPTX 수정은 JSON/PNG에 역반영되지 않습니다.\n"
@@ -394,7 +412,8 @@ def verify_build(path: str | Path) -> dict:
     fixed = {"plan.json", "profile.json", "source-summary.json", "render-report.json", "review.md",
              "SOURCES.md", "approval.json", "preview.html", "cardnews-editable.pptx", "cardnews-preview.pptx", "ABOUT.txt"}
     for rel, digest in manifest["files"].items():
-        if rel not in fixed and not re.fullmatch(r"(?:png/\d{2}_(?:cover|body|closing)\.png|jpeg/\d{2}_(?:cover|body|closing)\.jpg)", rel):
+        pet_files = {f"assets/jeju-pets/{n}" for n in ("gyulmo.png", "harubang.png", "halla.png", "manifest.json", "SOURCES.md")}
+        if rel not in fixed | pet_files and not re.fullmatch(r"(?:png/\d{2}_(?:cover|body|closing)\.png|jpeg/\d{2}_(?:cover|body|closing)\.jpg)", rel):
             raise SkillError("허용되지 않은 파일이 manifest에 있습니다.")
         if sha256(confined(rel).read_bytes()) != digest:
             raise SkillError(f"생성 후 변경된 파일: {rel}. 새 폴더로 다시 build 하세요.")

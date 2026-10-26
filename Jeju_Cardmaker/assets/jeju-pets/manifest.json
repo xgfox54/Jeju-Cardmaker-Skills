@@ -1,0 +1,10 @@
+{
+  "repository": "https://gitlab.aigov.go.kr/memory365/codex-pet-3jeju",
+  "commit": "ebca32e8f78a530c6010d1f4a429b14341f8572b",
+  "source_directory": "docs/previews",
+  "sha256": {
+    "gyulmo.png": "fe6b642386a72d8b2ac14dca27e011c7b42fe1b8a7a490c44e760ae2d138b7f5",
+    "halla.png": "a942f44dd108e34f999047c534503110277915583e24c80e12bfbbd9f3b564af",
+    "harubang.png": "98f55654f387286501ef3a1a7a33564855de6fca0784dc1fe11da90d2c565ebe"
+  }
+}

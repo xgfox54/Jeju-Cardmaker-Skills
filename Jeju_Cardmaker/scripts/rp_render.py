@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def load_profile(value: str) -> dict[str, Any]:
-    path = ROOT / "assets" / "profiles" / f"{value}.json" if value in {"neutral", "jeju"} else Path(value).expanduser()
+    path = ROOT / "assets" / "profiles" / f"{value}.json" if value in {"neutral", "jeju", "seogwipo-ai"} else Path(value).expanduser()
     data = read_json(path)
     for key in ("name", "agency", "footer", "primary", "secondary", "accent", "background", "text"):
         if not isinstance(data.get(key), str):
@@ -35,10 +35,15 @@ def load_profile(value: str) -> dict[str, Any]:
             raise SkillError(f"프로필 색상 {key}는 #RRGGBB 형식이어야 합니다.")
     if len(data["agency"]) > 50 or len(data["footer"]) > 90:
         raise SkillError("프로필 기관명/푸터가 너무 깁니다.")
+    if data.get("template") not in (None, "seogwipo-ai"):
+        raise SkillError("지원하지 않는 프로필 템플릿입니다.")
     return data
 
 
-def resolve_fonts(regular: str | None = None, bold: str | None = None) -> tuple[Path, Path]:
+def resolve_fonts(regular: str | None = None, bold: str | None = None,
+                  required_family: str | None = None) -> tuple[Path, Path]:
+    if required_family == "Pretendard":
+        return resolve_pretendard(regular, bold)
     windows = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"
     pairs = [(windows / "malgun.ttf", windows / "malgunbd.ttf"),
              (Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"), Path("/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf")),
@@ -54,6 +59,41 @@ def resolve_fonts(regular: str | None = None, bold: str | None = None) -> tuple[
         if rp.is_file():
             return rp, bp if bp.is_file() else rp
     raise SkillError("한글 폰트를 찾지 못했습니다. --font로 합법적으로 설치된 TTF/OTF/TTC 경로를 지정하세요. 폰트 파일은 배포하지 않습니다.")
+
+
+def resolve_pretendard(regular: str | None = None, bold: str | None = None) -> tuple[Path, Path]:
+    """Use static Regular/Bold files; never silently substitute another family."""
+    from fontTools.ttLib import TTFont
+    if bool(regular) != bool(bold):
+        raise SkillError("Pretendard Regular와 Bold를 --font 및 --bold-font로 함께 지정하세요.")
+    if regular and bold:
+        candidates = [(Path(regular).expanduser(), Path(bold).expanduser())]
+    else:
+        local_app = Path(os.environ.get("LOCALAPPDATA", str(Path.home()/"AppData/Local")))
+        directories = [Path(os.environ.get("WINDIR", r"C:\Windows"))/"Fonts",
+                       local_app/"Microsoft/Windows/Fonts", Path.home()/"Library/Fonts",
+                       Path("/Library/Fonts"), Path.home()/".local/share/fonts",
+                       Path("/usr/local/share/fonts"), Path("/usr/share/fonts")]
+        candidates = []
+        for directory in directories:
+            if directory.is_dir():
+                for rp in sorted(directory.rglob("Pretendard-Regular.*")):
+                    if rp.suffix.lower() in (".ttf", ".otf"):
+                        candidates.append((rp, rp.with_name("Pretendard-Bold"+rp.suffix)))
+    for rp, bp in candidates:
+        if not rp.is_file() or not bp.is_file():
+            continue
+        valid = True
+        for path, weight in ((rp, 400), (bp, 700)):
+            font = TTFont(str(path), lazy=True)
+            try:
+                family = font["name"].getDebugName(16) or font["name"].getDebugName(1)
+                valid = valid and family == "Pretendard" and font["OS/2"].usWeightClass == weight and "fvar" not in font
+            finally:
+                font.close()
+        if valid:
+            return rp.resolve(), bp.resolve()
+    raise SkillError("Pretendard Regular/Bold 정적 폰트가 필요합니다. 공식 배포본을 설치하거나 --font와 --bold-font 경로를 지정하세요. 다른 폰트로 대체하지 않았습니다.")
 
 
 def check_glyphs(paths: tuple[Path, Path], strings: list[str]) -> None:
@@ -207,6 +247,8 @@ def create_run(plan: dict[str, Any], out_dir: str | Path, profile: dict[str, Any
                source: dict[str, Any] | None = None, approval: Any = None,
                final: bool = False, locale: str = "ko") -> Path:
     plan = validate_plan(plan)
+    if profile.get("template") or any("layout" in s or "takeaway" in s for s in plan["slides"]):
+        raise SkillError("직원 AI 학습 템플릿과 확장 문안은 build 명령으로 제작하세요.")
     if locale not in {"ko", "en"}:
         raise SkillError("locale은 ko 또는 en이어야 합니다.")
     if final:

@@ -37,7 +37,7 @@ class StudioTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def build(self, **kw):
-        return build_project(self.project, self.root/'out', preset=kw.pop('preset','portrait'), **kw)
+        return build_project(self.project, self.root/'out', preset=kw.pop('preset','portrait'), profile_name=kw.pop('profile_name','jeju'), **kw)
 
     def approval(self):
         ap = approve(self.plan, self.source, 'test fixture, not real approval', True)
@@ -236,7 +236,7 @@ class StudioTests(unittest.TestCase):
         self.plan['slides'][1]['bullets'][0]='jev-ultrafast는 Jev를 활용한 브라우저 자동화 데모입니다.'
         write_json(self.project/'plan.json',self.plan)
         for preset in ('portrait-2x','legacy'):
-            out=build_project(self.project,self.root/f'out-{preset}',preset=preset,pptx=False)
+            out=build_project(self.project,self.root/f'out-{preset}',preset=preset,profile_name='jeju',pptx=False)
             report=read_json(out/'render-report.json')
             blocks=[b for p in report['pages'] for b in p['blocks'] if b['text'].startswith('jev')]
             self.assertEqual(len(blocks),2)

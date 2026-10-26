@@ -52,7 +52,7 @@ def parser() -> argparse.ArgumentParser:
     build.add_argument("--project", required=True, help="Folder containing plan.json and optional SOURCES.md")
     build.add_argument("--out", required=True, help="New output folder, never overwrite")
     build.add_argument("--preset", choices=["legacy", "portrait", "portrait-2x"], default="portrait-2x")
-    build.add_argument("--profile", default="jeju")
+    build.add_argument("--profile", default="seogwipo-ai")
     build.add_argument("--source")
     build.add_argument("--approval")
     build.add_argument("--final", action="store_true")
@@ -102,11 +102,12 @@ def main(argv: list[str] | None = None) -> int:
                     packages[name] = None
             try:
                 from rp_render import resolve_fonts
-                fonts = [p.name for p in resolve_fonts()]
+                fonts = [p.name for p in resolve_fonts(required_family="Pretendard")]
             except (SkillError, ImportError, OSError):
                 fonts = []
             result = {"version": VERSION, "python": sys.version.split()[0], "packages": packages,
-                      "fonts": fonts, "network_requested": False, "desktop_installation_verified": False}
+                      "fonts": fonts, "required_font": "Pretendard Regular/Bold",
+                      "network_requested": False, "desktop_installation_verified": False}
         elif cmd == "extract":
             result = extract_document(args.input)
             new_json(args.out, result)
