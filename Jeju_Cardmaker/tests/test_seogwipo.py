@@ -18,6 +18,7 @@ from rp_studio import build_project, verify_build
 from PIL import Image
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 
 
 class LearningTests(unittest.TestCase):
@@ -48,12 +49,20 @@ class LearningTests(unittest.TestCase):
             self.assertEqual(len(page["pets"]), 3 if number in (0, 7) else 1)
             dots = [s for s in page["shapes"] if s.get("kind") == "ellipse"]
             self.assertEqual([s["fill"] for s in dots], ["#F18101", "#0173BC", "#00A074"])
-            self.assertEqual([s["x"] for s in dots], [94, 128, 162])
+            self.assertEqual(dots[0]["x"], page["shapes"][0]["x"])
+            self.assertTrue(all(s["y"]+s["height"] < page["shapes"][0]["y"] for s in dots))
+            label = next(b for b in page["blocks"] if b["label"].endswith("장 분류"))
+            left, top, right, bottom = label["glyph_bounds"][0]
+            self.assertLessEqual(abs((left+right)/2-(label["x"]+label["box_width"]/2)), 1)
+            self.assertLessEqual(abs((top+bottom)/2-(label["y"]+label["box_height"]/2)), 1)
+            ppt_label = next(s for s in slide.shapes if s.name == label["label"])
+            self.assertEqual(ppt_label.text_frame.vertical_anchor, MSO_ANCHOR.MIDDLE)
+            self.assertEqual(ppt_label.text_frame.paragraphs[0].alignment, PP_ALIGN.CENTER)
             with Image.open(out / ("png/01_cover.png" if number == 0 else
                                    f"png/{number+1:02d}_{source['role']}.png")) as rendered:
                 for dot in dots:
                     self.assertEqual(dot["width"], dot["height"])
-                    self.assertEqual(rendered.getpixel((dot["x"]+9, dot["y"]+9)),
+                    self.assertEqual(rendered.getpixel((dot["x"]+10, dot["y"]+10)),
                                      tuple(bytes.fromhex(dot["fill"][1:])))
                 # The entire bottom edge belongs to the page's single border color.
                 for x in (60, 400, 700, 1020):
@@ -64,6 +73,9 @@ class LearningTests(unittest.TestCase):
             for pet in page["pets"]:
                 self.assertIn(pet["pose"], POSES)
                 self.assertIn("-"+pet["pose"]+".png", pet["asset"])
+                for left, top, right, bottom in page["content_obstacles"]:
+                    self.assertTrue(pet["x"]+pet["width"] <= left or pet["x"] >= right or
+                                    pet["y"]+pet["height"] <= top or pet["y"] >= bottom)
             all_text = "".join(s.text for s in slide.shapes if s.has_text_frame)
             clean = lambda value: "".join(value.split())
             for value in [source["title"], *source["bullets"], source.get("takeaway", ""), source["footnote"]]:
@@ -97,7 +109,39 @@ class LearningTests(unittest.TestCase):
             self.assertEqual(image.size, (2160, 2700))
         report = read_json(out/"render-report.json")
         self.assertEqual({p["id"] for p in report["pages"][0]["pets"]}, {"gyulmo", "harubang", "halla"})
-        self.assertEqual([s["width"] for s in report["pages"][0]["shapes"] if s.get("kind") == "ellipse"], [36]*3)
+        page = report["pages"][0]
+        self.assertEqual([s["width"] for s in page["shapes"] if s.get("kind") == "ellipse"], [40]*3)
+        for dot in [s for s in page["shapes"] if s.get("kind") == "ellipse"]:
+            self.assertLess(dot["y"]+dot["height"], page["shapes"][0]["y"])
+        label = next(b for b in page["blocks"] if b["label"].endswith("장 분류"))
+        left, top, right, bottom = label["glyph_bounds"][0]
+        self.assertLessEqual(abs((left+right)/2-(label["x"]+label["box_width"]/2)), 1)
+        self.assertLessEqual(abs((top+bottom)/2-(label["y"]+label["box_height"]/2)), 1)
+
+    def test_whitespace_placement_changes_with_text_length(self):
+        self.plan["slides"] = [self.plan["slides"][0], self.plan["slides"][4], self.plan["slides"][-1]]
+        write_json(self.project/"plan.json", self.plan)
+        short = build_project(self.project, self.root/"short", preset="portrait", pptx=False)
+        first = read_json(short/"render-report.json")["pages"][1]
+        self.plan["slides"][1]["title"] = "공개 행사 안내문을 활용하여 요청문을 작성합니다"
+        write_json(self.project/"plan.json", self.plan)
+        long = build_project(self.project, self.root/"long", preset="portrait", pptx=False)
+        second = read_json(long/"render-report.json")["pages"][1]
+        a, b = first["pets"][0], second["pets"][0]
+        self.assertNotEqual((a["x"], a["y"]), (b["x"], b["y"]))
+        for page in (first, second):
+            pet = page["pets"][0]
+            self.assertEqual(pet["placement"], "measured-whitespace")
+            boxes = page["content_obstacles"] + [g for block in page["blocks"] for g in block["glyph_bounds"]]
+            for left, top, right, bottom in boxes:
+                self.assertTrue(pet["x"]+pet["width"] <= left or pet["x"] >= right or
+                                pet["y"]+pet["height"] <= top or pet["y"] >= bottom)
+
+    def test_comparison_preserves_korean_word_boundaries(self):
+        out = build_project(self.project, self.root/"out", preset="portrait", pptx=False)
+        page = read_json(out/"render-report.json")["pages"][2]
+        body = next(b for b in page["blocks"] if b["label"].endswith("장 비교 2"))
+        self.assertTrue(any("일정·장소·준비물을" in line for line in body["lines"]))
 
     def test_pose_catalog_has_distinct_transparent_frames_and_provenance(self):
         manifest = validate_pets()

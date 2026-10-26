@@ -111,7 +111,7 @@ def check_glyphs(paths: tuple[Path, Path], strings: list[str]) -> None:
             raise SkillError(f"폰트 {path.name}에 없는 글자: {chars}. 폰트를 바꾸거나 이모지를 일반 글자로 바꾸세요.")
 
 
-def wrap_text(draw: Any, text: str, font: Any, width: int) -> list[str]:
+def wrap_text(draw: Any, text: str, font: Any, width: int, prefer_words: bool = False) -> list[str]:
     """Measured, CJK-safe wrapping. Only wrapping whitespace is discarded."""
     result: list[str] = []
     for paragraph in text.replace("\r\n", "\n").replace("\r", "\n").expandtabs(4).split("\n"):
@@ -127,7 +127,7 @@ def wrap_text(draw: Any, text: str, font: Any, width: int) -> list[str]:
                 raise SkillError("한 글자도 들어가지 않는 텍스트 영역입니다.")
             cut = line.rfind(" ")
             # Prefer word boundaries for Latin text, while allowing CJK line breaks.
-            if cut > len(line) // 2:
+            if cut > (0 if prefer_words else len(line) // 2):
                 result.append(line[:cut].rstrip())
                 line = line[cut + 1:] + char
             else:
@@ -155,13 +155,13 @@ def ink_width(draw: Any, line: str, font: Any) -> float:
 
 
 def fit_block(draw: Any, text: str, font_path: Path, width: int, height: int,
-              max_size: int, min_size: int, label: str) -> dict[str, Any]:
+              max_size: int, min_size: int, label: str, prefer_words: bool = False) -> dict[str, Any]:
     from PIL import ImageFont
     if not text:
         return {"lines": [], "size": max_size, "line_height": 0, "height": 0, "width": 0, "label": label}
     for size in range(max_size, min_size - 1, -1):
         font = ImageFont.truetype(str(font_path), size)
-        lines = wrap_text(draw, text, font, width)
+        lines = wrap_text(draw, text, font, width, prefer_words=prefer_words)
         line_height = max(math.ceil(size * 1.4), max(font.getbbox(line or "Ag가")[3] - font.getbbox(line or "Ag가")[1] for line in lines) + 5)
         actual_height = len(lines) * line_height
         if actual_height <= height and all(ink_width(draw, line, font) <= width for line in lines):

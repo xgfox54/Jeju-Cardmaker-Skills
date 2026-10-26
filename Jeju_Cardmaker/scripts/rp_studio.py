@@ -188,7 +188,7 @@ def editable_deck(reports: list[dict], size: tuple[int, int], logo: Path | None)
     from pptx import Presentation
     from pptx.dml.color import RGBColor
     from pptx.enum.shapes import MSO_SHAPE
-    from pptx.enum.text import MSO_AUTO_SIZE, MSO_ANCHOR
+    from pptx.enum.text import MSO_AUTO_SIZE, MSO_ANCHOR, PP_ALIGN
     from pptx.util import Inches, Pt
     from pptx.oxml.xmlchemy import OxmlElement
     from pptx.oxml.ns import qn
@@ -228,10 +228,11 @@ def editable_deck(reports: list[dict], size: tuple[int, int], logo: Path | None)
             frame.margin_left = frame.margin_right = frame.margin_top = frame.margin_bottom = 0
             frame.auto_size = MSO_AUTO_SIZE.NONE
             frame.word_wrap = False
-            frame.vertical_anchor = MSO_ANCHOR.TOP
+            frame.vertical_anchor = MSO_ANCHOR.MIDDLE if spec.get("valign") == "middle" else MSO_ANCHOR.TOP
             for n, line in enumerate(spec["lines"]):
                 p = frame.paragraphs[0] if n == 0 else frame.add_paragraph()
                 p.text = line
+                p.alignment = PP_ALIGN.CENTER if spec.get("align") == "center" else PP_ALIGN.LEFT
                 p.space_before = p.space_after = Pt(0)
                 p.line_spacing = Pt(spec["line_height"] * 8 / w * 72)
                 p.font.name = spec["font_family"]
