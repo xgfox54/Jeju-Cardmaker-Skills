@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "logical_width": 1080,
+  "aspect_ratio": 0.8,
+  "font_family": "Pretendard",
+  "body_min_px": 30,
+  "diagram_min_px": 24,
+  "contrast_min": 4.5,
+  "border_colors": ["#00A074", "#0173BC", "#F18101"],
+  "dot_colors": ["#F18101", "#0173BC", "#00A074"],
+  "dots": {"x": [48,82,116], "y": 96, "diameter": 20},
+  "frame": {"x": 48, "y": 130},
+  "pet_ids": ["gyulmo", "harubang", "halla"],
+  "mobile_width": 390
+}
