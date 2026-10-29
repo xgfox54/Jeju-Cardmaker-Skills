@@ -72,6 +72,9 @@ class PipelineTests(unittest.TestCase):
         result = inspect_run(self.project_copy,self.run_copy)
         self.assertTrue(result.passed,result.errors)
         self.assertEqual(len(result.pages),3)
+        report = read_json(self.run_copy/"render-report.json")
+        title = read_json(self.project_copy/"plan.json")["series_title"]
+        self.assertTrue(all(page["blocks"][0]["text"] == title for page in report["pages"]))
 
     def test_plan_change_requires_rebuild(self):
         # Given an edited source plan. When inspected. Then the old run is rejected.
@@ -179,6 +182,7 @@ class PipelineTests(unittest.TestCase):
         # Given a topic. When scaffolded. Then the unfinished plan cannot build as finished content.
         out = init_project(self.root/"new","시험 주제","topic",5)
         self.assertEqual(len(read_json(out/"plan.json")["slides"]),5)
+        self.assertEqual(read_json(out/"plan.json")["series_title"],"오늘의 주제: 시험 주제")
         with self.assertRaises(SkillError):
             validate_plan(read_json(out/"plan.json"))
 

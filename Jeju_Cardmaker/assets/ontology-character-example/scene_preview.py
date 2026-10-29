@@ -47,7 +47,7 @@ article{{min-width:0}}img{{display:block;width:100%;height:auto}}a{{color:#0167a
 .downloads{{margin:12px 0}}details{{padding:16px;background:#fff}}summary{{cursor:pointer}}
 details p{{margin:12px 0}}nav{{display:flex;gap:12px 24px;flex-wrap:wrap}}
 footer{{padding-bottom:48px}}@media(max-width:760px){{main{{grid-template-columns:1fr}}header,main,footer{{padding:20px}}}}
-</style></head><body><header><p>서귀포시 직원 AI 기초 · 검토용 초안 · 8장</p>
+</style></head><body><header><p>{esc(plan["series_title"])} · 검토용 초안 · 8장</p>
 <h1>온톨로지를 업무 예시로 배워요</h1>
 <p>캐릭터가 질문하고 설명하는 장면으로 구성했어요. 이미지를 누르면 크게 볼 수 있어요.</p>
 <nav><a download href="cardnews.zip">전체 자료 ZIP</a><a download href="cardnews-editable.pptx">편집용 PPTX</a>
