@@ -295,7 +295,8 @@ a{{color:#0173bc}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:wh
 def build_project(project: str | Path, output: str | Path, *, preset: str = "portrait-2x",
                   profile_name: str = "seogwipo-ai", source_path: str | None = None,
                   approval_path: str | None = None, final: bool = False,
-                  hide_status: bool = False, font: str | None = None, bold_font: str | None = None,
+                  hide_status: bool = False, show_status: bool = False,
+                  font: str | None = None, bold_font: str | None = None,
                   logo_path: str | None = None, pptx: bool = True) -> Path:
     project = Path(project).expanduser().resolve(strict=True)
     if not project.is_dir():
@@ -305,8 +306,8 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
     target = Path(output).expanduser().absolute()
     if target.exists() or target.is_symlink():
         raise SkillError("결과 폴더가 이미 있습니다. 새 이름을 지정하세요.")
-    if hide_status and not final:
-        raise SkillError("상태 표시 제거는 실제 문안 승인 후 --final과 함께 사용하세요.")
+    # Card images carry no review stamp unless explicitly requested; manifest status still records it.
+    hide_status = hide_status or not show_status
     plan = validate_plan(read_json(project/"plan.json"))
     notes_path = project/"SOURCES.md"
     notes = None

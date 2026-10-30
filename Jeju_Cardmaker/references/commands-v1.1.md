@@ -19,7 +19,8 @@ python scripts/Jeju_Cardmaker.py build --project <plan.json이 있는 폴더> --
 | --profile <JSON> | 사용자 프로필 파일. 기존 프로필 필드 사용. template: seogwipo-ai로 새 템플릿 선택 가능 |
 | --source <source.json> | extract 결과 연결. 지정하지 않으면 초안의 원문 미연결 표시 |
 | --approval <approval.json> --final | 실제 문안 승인 기록을 확인하고 승인본 생성 |
-| --hide-status | --final과 함께만 사용. 카드 위 상태 글자 제거 |
+| --show-status | 카드에 ‘검토용 초안’ 또는 ‘문안 승인본’ 글자 표시. 기본값은 표시 없음 |
+| --hide-status | 이전 명령 호환용. 기본값과 같아 생략 가능 |
 | --font <TTF/OTF/TTC> --bold-font <폰트> | 해당 PC에 설치된 폰트 참조, 폰트 파일 미포함 |
 | --logo <이미지> | 사용자 승인 로고. 색과 투명도 보존 |
 | --no-pptx | PPTX 두 종류를 제외하고 이미지·HTML·ZIP 생성 |

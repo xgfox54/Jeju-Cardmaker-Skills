@@ -36,7 +36,7 @@ $C = Join-Path $S 'scripts\Jeju_Cardmaker.py'
 | api-plan | 원본+원문+모델+호출 승인 | 원본 OpenAI 함수로 생성한 미승인 기획안 |
 | api-render | 원본+승인된 계획+API 승인 | 원본 GPT Image 카드 JPEG. 별도 시각 검수 필수 |
 
-`--help`로 실제 옵션을 확인한다. `render --font <TTF/OTF/TTC> --bold-font <굵은 폰트>`로 설치된 폰트를 지정할 수 있다. `--logo <PNG>`는 승인된 로고를 합성하고 검은색 글자/픽셀을 제거하지 않는다.
+`--help`로 실제 옵션을 확인한다. render도 카드에 상태 글자를 넣지 않으며 `--show-status`를 지정한 경우에만 표시한다. `render --font <TTF/OTF/TTC> --bold-font <굵은 폰트>`로 설치된 폰트를 지정할 수 있다. `--logo <PNG>`는 승인된 로고를 합성하고 검은색 글자/픽셀을 제거하지 않는다.
 
 ## 출력물 성격과 개인정보
 

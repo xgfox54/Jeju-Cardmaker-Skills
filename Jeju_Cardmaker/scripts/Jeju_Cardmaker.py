@@ -43,6 +43,7 @@ def parser() -> argparse.ArgumentParser:
     render.add_argument("--logo")
     render.add_argument("--locale", choices=["ko", "en"], default="ko")
     render.add_argument("--final", action="store_true")
+    render.add_argument("--show-status", action="store_true", help="카드에 검토 상태 글자 표시")
     render.add_argument("--approval")
     package = sub.add_parser("package", help="Allowlisted ZIP + optional image PPTX")
     package.add_argument("--run", required=True)
@@ -56,7 +57,8 @@ def parser() -> argparse.ArgumentParser:
     build.add_argument("--source")
     build.add_argument("--approval")
     build.add_argument("--final", action="store_true")
-    build.add_argument("--hide-status", action="store_true")
+    build.add_argument("--show-status", action="store_true", help="카드에 검토 상태 글자 표시")
+    build.add_argument("--hide-status", action="store_true", help="기본값과 같음. 이전 명령 호환용")
     build.add_argument("--font")
     build.add_argument("--bold-font")
     build.add_argument("--logo")
@@ -133,7 +135,7 @@ def main(argv: list[str] | None = None) -> int:
                          regular_font=args.font, bold_font=args.bold_font, logo=args.logo,
                          source=validate_source(read_json(args.source)) if args.source else None,
                          approval=read_json(args.approval) if args.approval else None,
-                         final=args.final, locale=args.locale)
+                         final=args.final, locale=args.locale, show_status=args.show_status)
             result = {"output": str(output), "preview": str(output / "preview.html"), "api_calls": 0}
         elif cmd == "package":
             from rp_render import package_run
@@ -141,7 +143,8 @@ def main(argv: list[str] | None = None) -> int:
         elif cmd == "build":
             from rp_studio import build_project
             output = build_project(args.project, args.out, preset=args.preset, profile_name=args.profile,
-                source_path=args.source, approval_path=args.approval, final=args.final, hide_status=args.hide_status,
+                source_path=args.source, approval_path=args.approval, final=args.final,
+                hide_status=args.hide_status, show_status=args.show_status,
                 font=args.font, bold_font=args.bold_font, logo_path=args.logo, pptx=not args.no_pptx)
             result = {"output": str(output), "zip": str(output/"cardnews.zip"),
                       "preview": str(output/"preview.html"), "api_calls": 0,

@@ -179,7 +179,8 @@ def _draw_block(draw: Any, block: dict[str, Any], x: int, y: int, path: Path, co
 
 
 def render_page(plan: dict[str, Any], index: int, profile: dict[str, Any], fonts: tuple[Path, Path],
-                status: str, logo_path: str | None = None) -> tuple[Any, list[dict[str, Any]]]:
+                status: str, logo_path: str | None = None,
+                show_status: bool = False) -> tuple[Any, list[dict[str, Any]]]:
     from PIL import Image, ImageDraw
     image = Image.new("RGB", (WIDTH, HEIGHT), profile["background"])
     draw = ImageDraw.Draw(image)
@@ -199,8 +200,9 @@ def render_page(plan: dict[str, Any], index: int, profile: dict[str, Any], fonts
     draw.rectangle((0, HEIGHT - 10, WIDTH // 3, HEIGHT), fill=profile["primary"])
     draw.rectangle((WIDTH // 3, HEIGHT - 10, WIDTH * 2 // 3, HEIGHT), fill=profile["secondary"])
     draw.rectangle((WIDTH * 2 // 3, HEIGHT - 10, WIDTH, HEIGHT), fill=profile["accent"])
-    label = "검토용 초안" if status == "draft" else "문안 승인본"
-    block(label, 64, 52, 330, 40, 24, 20, "상태", strong=True, color=profile["primary"])
+    if show_status:
+        label = "검토용 초안" if status == "draft" else "문안 승인본"
+        block(label, 64, 52, 330, 40, 24, 20, "상태", strong=True, color=profile["primary"])
     block(f"{index + 1:02d} / {len(plan['slides']):02d}", 820, 52, 120, 40, 24, 20, "쪽수")
     series_h = block(plan["series_title"], 64, 126, 872, 94, 30, 20, "시리즈명", strong=True, color=profile["primary"])
     y = max(216, 126 + series_h + 18)
@@ -245,7 +247,7 @@ def _html_preview(plan: dict[str, Any], paths: list[str], status: str) -> str:
 def create_run(plan: dict[str, Any], out_dir: str | Path, profile: dict[str, Any], *,
                regular_font: str | None = None, bold_font: str | None = None, logo: str | None = None,
                source: dict[str, Any] | None = None, approval: Any = None,
-               final: bool = False, locale: str = "ko") -> Path:
+               final: bool = False, locale: str = "ko", show_status: bool = False) -> Path:
     plan = validate_plan(plan)
     if profile.get("template") or any("layout" in s or "takeaway" in s for s in plan["slides"]):
         raise SkillError("직원 AI 학습 템플릿과 확장 문안은 build 명령으로 제작하세요.")
@@ -262,7 +264,7 @@ def create_run(plan: dict[str, Any], out_dir: str | Path, profile: dict[str, Any
     fonts = resolve_fonts(regular_font, bold_font)
     check_glyphs(fonts, plan_strings(plan) + [profile["agency"], profile["footer"], "검토용 초안 문안 승인본 • · 0123456789 / "])
     # Fit every page before creating any user-visible output.
-    pages = [render_page(plan, i, profile, fonts, status, logo) for i in range(len(plan["slides"]))]
+    pages = [render_page(plan, i, profile, fonts, status, logo, show_status) for i in range(len(plan["slides"]))]
     target.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".Jeju_Cardmaker-", dir=target.parent))
     try:

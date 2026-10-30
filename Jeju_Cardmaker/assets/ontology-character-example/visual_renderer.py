@@ -272,7 +272,9 @@ def render_learning_card(plan: dict, index: int, profile: dict, fonts: tuple[Pat
              "마지막 정리", True, align="center", valign="middle")
 
     text(slide["footnote"], 56, logical_h-174, 968, 83, 23, 19, "출처/각주", background=profile["background"])
-    text("검토용 초안", 56, logical_h-67, 210, 35, 21, 19, "상태", background=profile["background"])
+    if not hide_status:
+        text("검토용 초안" if status == "draft" else "문안 승인본", 56, logical_h-67, 210, 35, 21, 19,
+             "상태", background=profile["background"])
     warnings = [f"{index+1}장 {b['label']}: 글자 대비 {b['contrast_ratio']}" for b in blocks if b["text"] and b["contrast_ratio"] < 4.5]
     return image, {"page": index+1, "size": list(size), "background": profile["background"],
                    "template": "seogwipo-ai-character-scenes", "layout": layout,

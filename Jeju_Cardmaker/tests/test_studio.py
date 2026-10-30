@@ -133,9 +133,24 @@ class StudioTests(unittest.TestCase):
         self.build(pptx=False)
         self.assertEqual(before,{p.name:p.read_bytes() for p in self.project.iterdir()})
 
-    def test_draft_cannot_hide_status(self):
-        with self.assertRaises(SkillError): self.build(hide_status=True)
-        self.assertFalse((self.root/'out').exists())
+    def status_texts(self, out):
+        report=read_json(out/'render-report.json')
+        return [b['text'] for p in report['pages'] for b in p['blocks'] if '상태' in b['label']]
+
+    def test_default_build_has_no_status_stamp(self):
+        for profile in ('jeju','seogwipo-ai'):
+            with self.subTest(profile=profile):
+                out=build_project(self.project,self.root/f'default-{profile}',preset='portrait',profile_name=profile,pptx=False)
+                self.assertEqual(read_json(out/'manifest.json')['status'],'draft')
+                self.assertEqual(self.status_texts(out),[])
+
+    def test_show_status_marks_draft(self):
+        for profile in ('jeju','seogwipo-ai'):
+            with self.subTest(profile=profile):
+                out=build_project(self.project,self.root/f'shown-{profile}',preset='portrait',profile_name=profile,pptx=False,show_status=True)
+                texts=self.status_texts(out)
+                self.assertEqual(len(texts),len(self.plan['slides']))
+                self.assertTrue(all(t=='검토용 초안' for t in texts))
 
     def test_final_requires_approval(self):
         with self.assertRaises(SkillError): self.build(final=True)
