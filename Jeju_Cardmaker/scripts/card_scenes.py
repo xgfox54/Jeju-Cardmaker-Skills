@@ -100,11 +100,13 @@ def validate_scenes(plan: dict, diagrams: Any) -> list[dict]:
     return pages
 
 
-def _compatible(scene: str, place: str, speech: bool) -> bool:
+def _compatible(page: dict, place: str, speech: bool) -> bool:
     if place == "title-right":
         return not speech
     if place == "side-right":
-        return scene not in NARROW_UNSAFE
+        # A 572 px column cannot hold three boxes side by side without breaking words.
+        return page["scene"] not in NARROW_UNSAFE and not (
+            page["scene"] == "steps" and len(page.get("steps", [])) == 3)
     return True
 
 
@@ -120,13 +122,13 @@ def plan_characters(plan: dict, pages: list[dict]) -> list[dict]:
         speech = bool(page.get("speech"))
         override = page.get("character", {})
         place = override.get("place")
-        if place and not _compatible(page["scene"], place, speech):
+        if place and not _compatible(page, place, speech):
             raise SkillError(f"{i+1}장: {place} 자리는 이 장면이나 말풍선과 함께 쓸 수 없어요.")
         if not place:
             if not speech and prev_place != "title-right":
                 place = "title-right"
             else:
-                options = [p for p in PLACEMENTS if _compatible(page["scene"], p, speech)]
+                options = [p for p in PLACEMENTS if _compatible(page, p, speech)]
                 start = i % len(options)
                 order = options[start:] + options[:start]
                 place = next((p for p in order if p != prev_place), order[0])

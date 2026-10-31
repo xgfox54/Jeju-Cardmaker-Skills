@@ -110,5 +110,16 @@ class SceneTests(unittest.TestCase):
         self.assertIn("INPUT", [i.code for i in inspect_run(project, run).errors])
 
 
+    def test_three_steps_never_use_the_narrow_side_column(self):
+        # Given three steps with speech. When planned. Then the narrow side column is not chosen.
+        plan = read_json(EXAMPLE / "plan.json")
+        diagrams = read_json(EXAMPLE / "diagrams.json")
+        diagrams["pages"][1]["steps"] = diagrams["pages"][1]["steps"][:3]
+        places = plan_characters(plan, validate_scenes(plan, diagrams))
+        self.assertNotEqual(places[1]["place"], "side-right")
+        diagrams["pages"][1]["character"] = {"place": "side-right"}
+        with self.assertRaises(SkillError):
+            plan_characters(plan, validate_scenes(plan, diagrams))
+
 if __name__ == "__main__":
     unittest.main()
