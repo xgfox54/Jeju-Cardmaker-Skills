@@ -227,6 +227,10 @@ def init_project(project: Path, topic: str, mode: str, pages: int) -> Path:
     slides = [{"role":"cover" if i==0 else "closing" if i==pages-1 else "body",
                "title":"","bullets":[],"footnote":None} for i in range(pages)]
     write_json(project/"plan.json", {"series_title":f"오늘의 주제: {topic.strip()}","head_copy":"","slides":slides})
+    scenes = [{"scene":"hero","badge":"","question":"","note":"","number":"","number_caption":""}] + \
+             [{"scene":"","badge":"","speech":""} for _ in range(max(0,pages-2))] + \
+             ([{"scene":"checklist","badge":"","title":"","items":[],"captions":["","",""]}] if pages > 1 else [])
+    write_json(project/"diagrams.json", {"topic":topic.strip(),"preview_intro":"","preview_note":"","pages":scenes})
     (project/"storyboard.md").write_text("# 장별 기획\n\n| 장 | 전달할 내용 | 그림 | 캐릭터 역할 | 근거 |\n|---|---|---|---|---|\n" +
                  "".join(f"| {i} | | | | |\n" for i in range(1,pages+1)),encoding="utf-8")
     (project/"SOURCES.md").write_text("# 출처와 대조 기록\n\n출처별 확인일·위치와 카드별 대응을 작성함. 가상 예시와 제작자 제안을 구분함.\n",encoding="utf-8")

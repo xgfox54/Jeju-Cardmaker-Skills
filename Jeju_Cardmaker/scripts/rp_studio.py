@@ -297,7 +297,14 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
                   approval_path: str | None = None, final: bool = False,
                   hide_status: bool = False, show_status: bool = False,
                   font: str | None = None, bold_font: str | None = None,
-                  logo_path: str | None = None, pptx: bool = True) -> Path:
+                  logo_path: str | None = None, pptx: bool = True,
+                  card_renderer: Any = None, preview_builder: Any = None,
+                  report_extra: dict | None = None, about_note: str | None = None) -> Path:
+    """Build every export from one plan.
+
+    card_renderer/preview_builder replace the default page and preview functions with the
+    same signatures; report_extra is merged into render-report.json before hashing.
+    """
     project = Path(project).expanduser().resolve(strict=True)
     if not project.is_dir():
         raise SkillError("project는 plan.json이 있는 폴더여야 합니다.")
@@ -331,12 +338,14 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
     check_glyphs(fonts, plan_strings(plan) + [profile["agency"], profile["footer"], "검토용 초안 문안 승인본 · 0123456789 / "])
     logo = Path(logo_path).expanduser().resolve(strict=True) if logo_path else None
     size = PRESETS[preset]
+    renderer = card_renderer or render_card
+    previewer = preview_builder or preview_html
     target.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".Jeju_Cardmaker-build-", dir=target.parent))
     try:
         paths, reports = [], []
         for i, slide in enumerate(plan["slides"]):
-            image, report = render_card(plan, i, profile, fonts, size, status, hide_status, logo)
+            image, report = renderer(plan, i, profile, fonts, size, status, hide_status, logo)
             for folder, ext, kind in (("png", "png", "PNG"), ("jpeg", "jpg", "JPEG")):
                 rel = f"{folder}/{i+1:02d}_{slide['role']}.{ext}"
                 dest = stage/rel
@@ -353,6 +362,7 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
         report = {"version": VERSION, "preset": preset, "size": list(size),
                   "fonts": [p.name for p in fonts], "pages": reports, "citations": audit,
                   "factual_accuracy_verified": False, "pptx_visual_verified": False}
+        report.update(report_extra or {})
         write_json(stage/"render-report.json", report)
         (stage/"review.md").write_text(review_markdown(plan, source), encoding="utf-8")
         if notes is not None:
@@ -369,11 +379,12 @@ def build_project(project: str | Path, output: str | Path, *, preset: str = "por
         if pptx:
             (stage/"cardnews-editable.pptx").write_bytes(editable_deck(reports, size, logo))
             (stage/"cardnews-preview.pptx").write_bytes(image_deck([stage/p for p in paths], size))
-        (stage/"preview.html").write_text(preview_html(plan, paths, status, notes, plan_hash(plan)), encoding="utf-8")
+        (stage/"preview.html").write_text(previewer(plan, paths, status, notes, plan_hash(plan)), encoding="utf-8")
         (stage/"ABOUT.txt").write_text(f"Jeju_Cardmaker v{VERSION}\nPNG/JPEG: 로컬 카드 렌더링.\n"
             "cardnews-editable.pptx: 텍스트·도형 편집용. 편집/폰트 대체 후 직접 시각 검수.\n"
             "cardnews-preview.pptx: 이미지형 검토용.\n"
             "단일 원본은 plan.json. PPTX 수정은 JSON/PNG에 역반영되지 않습니다.\n"
+            + (about_note.rstrip() + "\n" if about_note else "") +
             "검사 성공은 사실·법률·게시 승인이나 접근성 인증이 아닙니다.\n"
             "SOURCES.md는 작업자가 작성한 근거 기록이며 최신성 자동 확인은 하지 않습니다.\n"
             "폰트·원문 source.json·API 키·미승인 폴더 파일은 포함하지 않습니다.\n", encoding="utf-8")

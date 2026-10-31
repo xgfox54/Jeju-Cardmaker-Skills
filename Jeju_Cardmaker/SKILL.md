@@ -43,18 +43,21 @@ python <SKILL>/scripts/card_pipeline.py init --project <PROJECT> --topic "주제
 
 ## P1.5. 그림과 캐릭터
 
-[업무 예시와 설명 그림](references/visual-explanations.md)을 읽고 그림 종류를 선택함. 기본 build는 설명 그림을 자동으로 만들지 않음. 그림이 필요한 경우 `assets/ontology-character-example/`을 작업 폴더에 복사하거나 같은 계약의 주제별 렌더러를 작성함.
+[업무 예시와 설명 그림](references/visual-explanations.md)을 읽고 그림 종류를 선택함. 그림은 [장 유형](references/scene-types.md) 가운데 하나를 장마다 골라 `diagrams.json`에 작성하는 방식을 기본으로 함. 엔진이 글자를 실측해 배치하고 캐릭터 자리를 장마다 바꿈. 장 유형으로 표현할 수 없는 그림만 `assets/ontology-character-example/`처럼 주제별 렌더러를 작성함.
 
-`plan.json`은 문안, `diagrams.json`은 그림의 이름·관계·사례, `visual_renderer.py`는 배치를 담당함. 그림 문구도 글리프·문장·PPTX 검수에 포함함. 자세한 파일 구분은 [제작 계약](references/production-contract.md)을 따름.
+`plan.json`은 문안, `diagrams.json`은 장 유형과 그림 문구를 담당함. 그림 문구도 글리프·문장·PPTX 검수에 포함함. 자세한 파일 구분은 [제작 계약](references/production-contract.md)을 따름.
 
 ## P2. 초안 제작
 
-문안 중심 카드는 기존 build, 그림 예제는 복사한 build.py를 사용함. 두 명령은 제작 방식별 대안임. 결과 폴더는 매번 새 이름을 사용함.
+그림이 있는 카드는 scene_build, 글자만 있는 카드는 기존 build, 장 유형 밖의 그림은 복사한 build.py를 사용함. 결과 폴더는 매번 새 이름을 사용함.
 
 ```text
+python <SKILL>/scripts/scene_build.py --project <PROJECT> --out <PROJECT>/draft/run-01
 python <SKILL>/scripts/Jeju_Cardmaker.py build --project <PROJECT> --out <PROJECT>/draft/run-01 --profile seogwipo-ai --source <PROJECT>/source.json
 python <PROJECT>/build.py --skill-root <SKILL> --out <PROJECT>/draft/run-01
 ```
+
+scene_build가 넘침 오류를 내면 글자를 줄이지 말고 문구를 줄이거나 장을 나눔.
 
 PNG/JPEG·HTML·편집형/이미지형 PPTX·ZIP을 함께 만듦. 기본 규격은 2160×2700px임. 폰트·API 키·원문 파일은 결과 ZIP에 포함하지 않음.
 

@@ -6,8 +6,8 @@
 | storyboard.md | 장별 메시지·그림 종류·캐릭터 역할 |
 | plan.json | 기존 스키마의 제목·본문·각주·layout/takeaway |
 | SOURCES.md, source.json | 근거 대조와 원문 또는 조사 요약 추출 |
-| diagrams.json | 그림 문구·사례·관계·단계 |
-| visual_renderer.py, build.py | 그림 배치와 제작 실행 |
+| diagrams.json | 장 유형(scene)과 그림 문구·사례·관계·단계 |
+| visual_renderer.py, build.py | 장 유형 밖의 그림을 그릴 때만 사용하는 주제별 렌더러 |
 | draft/run-NN | 새로 제작한 초안 |
 | qc/run-NN | 검사 보고·전체 장 축소 이미지·review.json |
 | delivery/run-NN | 검사한 카드 파일과 검수 기록 |

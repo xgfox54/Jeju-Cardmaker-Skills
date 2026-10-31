@@ -185,6 +185,9 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(read_json(out/"plan.json")["series_title"],"오늘의 주제: 시험 주제")
         with self.assertRaises(SkillError):
             validate_plan(read_json(out/"plan.json"))
+        from card_scenes import validate_scenes
+        with self.assertRaises(SkillError):
+            validate_scenes(read_json(out/"plan.json"),read_json(out/"diagrams.json"))
 
     def test_missing_renderer_fingerprint_is_rejected(self):
         # Given a custom renderer without a recorded recipe. When inspected. Then provenance is incomplete.
