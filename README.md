@@ -17,6 +17,20 @@
 
 캐릭터는 [제주 펫 저장소](https://gitlab.aigov.go.kr/memory365/codex-pet-3jeju)의 원본 PNG를 포함합니다. 생성 시 외부 이미지 다운로드나 AI API 호출이 필요하지 않습니다. 원본 커밋과 해시는 [캐릭터 출처](Jeju_Cardmaker/assets/jeju-pets/SOURCES.md)에 기록했습니다.
 
+## 캐릭터 소개
+
+카드뉴스에는 제주를 닮은 Codex 펫 세 캐릭터가 함께 등장합니다. 표지에서는 귤귤이 독자의 질문을 묻고 하르방과 한라가 주제를 소개합니다. 중간 장에는 장마다 다른 캐릭터가 번갈아 나와 그림 옆에서 설명을 돕고, 마지막 장에는 세 캐릭터가 모두 나옵니다.
+
+| 캐릭터 | 모티브 | 소개 |
+|---|---|---|
+| **귤귤** (Gyulgyul) | 제주 감귤 | 하루에 밝음과 집중, 작은 즐거움을 더하는 친구입니다. *A little brighter days, together.* |
+| **하르방** (Harubang) | 돌하르방 | 작은 지식과 차분함을 나누는 안내자입니다. *A small guide for a brighter tomorrow.* |
+| **한라** (Halla) | 한라산 | 호기심을 갖고 함께 탐색하고 기록하는 친구입니다. *A small friend from a greater height.* |
+
+<img src="docs/characters/gyulgyul-sheet.png" alt="귤귤(Gyulgyul) 캐릭터 시트. 감귤 모양 캐릭터의 표정 4종과 정면·옆면·뒷면·대기·인사·달리기·기쁨 포즈" width="300"> <img src="docs/characters/harubang-sheet.png" alt="하르방(Harubang) 캐릭터 시트. 돌하르방 모양 캐릭터의 표정 4종과 정면·옆면·뒷면·차분·궁금·인사·기쁨 포즈" width="300"> <img src="docs/characters/halla-sheet.png" alt="한라(Halla) 캐릭터 시트. 한라산 모양 캐릭터의 표정 4종과 정면·옆면·뒷면·대기·인사·달리기·기쁨 포즈" width="300">
+
+캐릭터 시트는 소개용 그림입니다. 카드 제작에는 시트가 아닌 원본 애니메이션 시트에서 추출한 동작 포즈 PNG를 사용합니다. 스킬 내부 파일 이름은 이전 이름을 따라 귤귤을 `gyulmo`로 표시합니다.
+
 ## 출력 예시
 
 가상 업무로 만든 검토용 초안입니다.
