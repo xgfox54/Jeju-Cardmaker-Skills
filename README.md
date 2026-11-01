@@ -1,5 +1,7 @@
 # 서귀포시 직원용 AI 카드뉴스 생성 스킬
 
+<img src="Jeju_Cardmaker_Codex_Skills.png" alt="Jeju Cardmaker Codex Skills 표지. 코덱스용 카드뉴스 생성 스킬과 아이디어·생성·카드뉴스·공유 순서, 귤귤·하르방·한라 캐릭터" width="100%">
+
 서귀포시 직원에게 AI 지식을 쉽게 설명하는 Codex 스킬 **Jeju_Cardmaker v1.3.2**입니다. 한 편에 개념 하나와 업무 예시를 담고, 제주 펫 **귤귤·하르방·한라**로 학습 내용을 안내합니다.
 
 ## 기본 디자인
