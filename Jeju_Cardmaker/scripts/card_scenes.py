@@ -257,7 +257,7 @@ def _render(plan, index, profile, fonts, size, status, hide_status, page, charac
                        "font_family": font_family(path), "glyph_bounds": bounds, "overflow": False})
         return ink / scale
 
-    def pet(pet_id, pose, x, bottom, max_w, max_h, placement):
+    def pet(pet_id, pose, x, bottom, max_w, max_h, placement, top=None):
         filename = f"{pet_id}-{pose}.png"
         path = PET_ROOT / filename
         with Image.open(path) as original:
@@ -265,7 +265,8 @@ def _render(plan, index, profile, fonts, size, status, hide_status, page, charac
             ratio = min(px(max_w) / sprite.width, px(max_h) / sprite.height)
             sprite = sprite.resize((round(sprite.width * ratio), round(sprite.height * ratio)),
                                    Image.Resampling.NEAREST)
-            xx, yy = px(x) + (px(max_w) - sprite.width) // 2, px(bottom) - sprite.height
+            xx = px(x) + (px(max_w) - sprite.width) // 2
+            yy = px(top) if top is not None else px(bottom) - sprite.height
             image.paste(sprite, (xx, yy), sprite)
             pets.append({"id": pet_id, "name": PETS[pet_id], "pose": pose, "placement": placement,
                          "asset": f"assets/jeju-pets/{filename}", "sha256": sha256(path.read_bytes()),
@@ -465,12 +466,16 @@ def _render(plan, index, profile, fonts, size, status, hide_status, page, charac
         elif place == "side-right":
             cx, cw = 700, 276
             bh = bubble_height(speech, cw) if speech else 0
-            if speech:
-                bubble(speech, cx, TOP, cw, bh, tone, "bottom")
-            room = BOTTOM - (TOP + bh + (30 if speech else 0))
+            tail = 30 if speech else 0
+            room = BOTTOM - (TOP + bh + tail)
             if room < 150:
                 raise SkillError(f"{n}장: 말풍선이 길어서 캐릭터를 놓을 공간이 없어요. 말을 줄이세요.")
-            pet(pet_id, pose, cx + 18, BOTTOM, cw - 36, min(250, room), place)
+            ph = min(230, room)
+            group = bh + tail + ph
+            y0 = max(TOP, min(start, BOTTOM - group))
+            if speech:
+                bubble(speech, cx, y0, cw, bh, tone, "bottom")
+            pet(pet_id, pose, cx + 18, BOTTOM, cw - 36, ph, place, top=y0 + bh + tail)
         else:
             pet(pet_id, pose, X1 - PET_W, 412, PET_W, 200, place)
 

@@ -121,5 +121,15 @@ class SceneTests(unittest.TestCase):
         with self.assertRaises(SkillError):
             plan_characters(plan, validate_scenes(plan, diagrams))
 
+    def test_side_character_sits_right_under_its_speech_bubble(self):
+        # Given a side-right page with speech. When rendered. Then the pet starts just below the bubble.
+        pages = [p for p in self.report["pages"] if p["placement"] == "side-right"]
+        self.assertTrue(pages)
+        for page in pages:
+            scale = page["size"][0] / 1080
+            speech = next(b for b in page["blocks"] if b["label"].endswith("캐릭터 말"))
+            gap = (page["pets"][0]["y"] - speech["y"] - speech["box_height"]) / scale
+            self.assertLess(gap, 60, page["page"])
+
 if __name__ == "__main__":
     unittest.main()
